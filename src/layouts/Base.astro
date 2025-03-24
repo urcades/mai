@@ -8,8 +8,8 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="title" content="Édouard Urcades" />
-    <meta name="description" content="Designer, Professional" />
+    <meta name="title" content="Meaning Alignment Institute" />
+    <meta name="description" content="" />
     <title>{pageTitle}</title>
 
     <!-- Basic Favicon and PWA/bookmark Info -->
@@ -71,19 +71,25 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://urcad.es/" />
-    <meta property="og:title" content="Édouard Urcades" />
-    <meta property="og:description" content="Designer, Professional" />
-    <meta property="og:image" content="https://www.urcad.es/og.png" />
+    <meta property="og:url" content="https://meaningalignment.org/" />
+    <meta property="og:title" content="Meaning Alignment Institute" />
+    <meta
+      property="og:description"
+      content="AI, markets, and democracies with what makes life meaningful"
+    />
+    <meta property="og:image" content="https://meaningalignment.org/og.png" />
 
     <!-- Twitter cards -->
-    <meta name="twitter:site" content="@neogeomancer" />
-    <meta property="twitter:domain" content="urcad.es" />
-    <meta property="twitter:url" content="https://www.urcad.es" />
-    <meta name="twitter:title" content="Édouard Urcades" />
-    <meta name="twitter:description" content="Designer, Professional" />
+    <meta name="twitter:site" content="@meaningalignment" />
+    <meta property="twitter:domain" content="meaningalignment.org" />
+    <meta property="twitter:url" content="https://meaningalignment.org" />
+    <meta name="twitter:title" content="Meaning Alignment Institute" />
+    <meta
+      name="twitter:description"
+      content="AI, markets, and democracies with what makes life meaningful"
+    />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://www.urcad.es/og.png" />
+    <meta name="twitter:image" content="https://meaningalignment.org/og.png" />
 
     <!-- Special case blog post styling -->
     <style
@@ -101,13 +107,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       body {
-        font-family: "Geist Mono", "Times New Roman", Times, serif;
+        font-family: "Geist Mono", "Courier New", Courier, monospace;
         font-size: 1.23em;
         -webkit-font-smoothing: antialiased;
         background-color: var(--bgColor, var(--fallback-bg-color));
         color: var(--txtColor, var(--fallback-txt-color));
-        /* font-family: 'ABCDiatypeVariable', sans-serif; */
-        /* font-weight: 333; */
       }
 
       a {
