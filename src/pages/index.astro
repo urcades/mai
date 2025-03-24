@@ -23,16 +23,21 @@ const remainingPosts = sortedPosts.slice(2);
   .content-grid section {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 2rem;
+    margin-bottom: 6rem;
+    align-items: baseline;
   }
 
   .section-header {
     margin: 0;
+    align-self: flex-start;
   }
 
   .section-content {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   .section-content h3 {
@@ -132,21 +137,57 @@ const remainingPosts = sortedPosts.slice(2);
     font-size: 0.9rem;
     opacity: 0.7;
   }
+
+  .people-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 var(--space-standard) 0;
+  }
+
+  .people-list li {
+    position: relative; /* For positioning the hover card */
+    margin-bottom: calc(var(--space-standard) / 3);
+    cursor: pointer; /* Indicates the item is interactive */
+  }
+
+  /* Add specific styling for research network list */
+  .research-network {
+    display: block;
+    margin-bottom: var(--space-standard);
+  }
+
+  .research-network li {
+    display: inline;
+    /* margin-right: 0.5em; */
+  }
+
+  .research-network li:after {
+    content: ", ";
+    /* margin-left: 0.5em; */
+  }
+
+  .research-network li:last-child:after {
+    content: "";
+  }
 </style>
 
 <Base pageTitle={pageTitle}>
-  <div class="header">
+  <header class="header">
     <p>
       <a href="https://www.meaningalignment.org">Meaning Alignment Institute</a>
     </p>
     <h1>AI, markets, and democracies aligned with what truly matters.</h1>
-  </div>
+  </header>
 
   <div class="content-grid">
     <section>
       <h2 class="section-header">Research and Writing</h2>
       <div class="section-content">
-        <p>Stay up to date, subscribe on Substack.</p>
+        <p>
+          Stay up to date, subscribe on <a
+            href="https://meaningalignment.substack.com">Substack</a
+          >.
+        </p>
       </div>
       <div class="post-scroll">
         {
@@ -189,33 +230,48 @@ const remainingPosts = sortedPosts.slice(2);
         </p>
 
         <h3>Research Network</h3>
-        <p>
-          Davidad • Serena Booth • Michiel Bakker • Shengwu Li • Ariel Procaccia
-          • Micah Carroll • Wes Holliday • Vince Conitzer • Paul Gölz • MH
-          Tessler • Rachel Calcott • Ariel Procaccia • Rachel Calcott • Ivan
-          Vendrov • Joel Lehman • Peli Grietzer • Rachel Calcott • Andreas Haupt
-          • Andrew Koh • Matija Franklin • Zoë Hitzig • Philipp Koralus • Ruth
-          Chang •
-        </p>
+        <ul class="people-list research-network">
+          <li>Davidad</li>
+          <li>Serena Booth</li>
+          <li>Michiel Bakker</li>
+          <li>Shengwu Li</li>
+          <li>Ariel Procaccia</li>
+          <li>Micah Carroll</li>
+          <li>Wes Holliday</li>
+          <li>Vince Conitzer</li>
+          <li>Paul Gölz</li>
+          <li>MH Tessler</li>
+          <li>Rachel Calcott</li>
+          <li>Ivan Vendrov</li>
+          <li>Joel Lehman</li>
+          <li>Peli Grietzer</li>
+          <li>Rachel Calcott</li>
+          <li>Andreas Haupt</li>
+          <li>Andrew Koh</li>
+          <li>Matija Franklin</li>
+          <li>Zoë Hitzig</li>
+          <li>Philipp Koralus</li>
+          <li>Ruth Chang</li>
+        </ul>
 
         <div class="two-column">
           <div>
             <h3>Core Team</h3>
-            <p>
-              Ellie Hain<br />
-              Joe Edelman<br />
-              Oliver Klingefjord<br />
-              Ryan Lowe
-            </p>
+            <ul class="people-list core-team">
+              <li>Ellie Hain</li>
+              <li>Joe Edelman</li>
+              <li>Oliver Klingefjord</li>
+              <li>Ryan Lowe</li>
+            </ul>
           </div>
           <div>
             <h3>Advisors</h3>
-            <p>
-              Peter Wang<br />
-              Aviv Ovayada<br />
-              Brian Christian<br />
-              Liv Boeree
-            </p>
+            <ul class="people-list advisors">
+              <li>Peter Wang</li>
+              <li>Aviv Ovayada</li>
+              <li>Brian Christian</li>
+              <li>Liv Boeree</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -224,24 +280,24 @@ const remainingPosts = sortedPosts.slice(2);
     <section>
       <h2 class="section-header">Contact</h2>
       <div class="section-content">
+        <h3>Interested in collaborating with us?</h3>
         <p>
-          Interested in collaborating with us?<br />
           <a href="mailto:research@meaningalignment.org"
             >research@meaningalignment.org</a
           >
         </p>
 
+        <h3>General Inquiry</h3>
         <p>
-          General Inquiry<br />
           <a href="mailto:hello@meaningalignment.org"
             >hello@meaningalignment.org</a
           >
         </p>
 
+        <h3>Follow us elsewhere</h3>
         <p>
-          Follow us elsewhere<br />
-          <a href="#">Substack</a><br />
-          <a href="#">X</a>
+          <a href="https://meaningalignment.substack.com">Substack</a><br />
+          <a href="https://x.com/meaningaligned">X</a>
         </p>
 
         <p>

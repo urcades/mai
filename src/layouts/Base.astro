@@ -119,13 +119,19 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       h1 {
-        font-size: 3em;
+        font-size: min(3em, 10vw);
         font-weight: 222;
+        padding: 6rem 0;
+        max-width: 20ch;
       }
 
       h2 {
         font-size: 2em;
         font-weight: 222;
+        opacity: 0.55;
+      }
+
+      h3 {
         opacity: 0.55;
       }
 
