@@ -1,15 +1,254 @@
 ---
 import Base from "../layouts/Base.astro";
-const pageTitle = "É. Urcades";
+import { getCollection } from "astro:content";
+
+const pageTitle = "Meaning Alignment Institute";
+
+// Get blog posts from the writing collection
+const allPosts = await getCollection("writing");
+
+// Sort posts by publication date (newest first)
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.id.substring(0, 6));
+  const dateB = new Date(b.id.substring(0, 6));
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Identify two posts to pin (first two)
+const pinnedPosts = sortedPosts.slice(0, 2);
+const remainingPosts = sortedPosts.slice(2);
 ---
 
+<style>
+  .content-grid section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-header {
+    margin: 0;
+  }
+
+  .section-content {
+    margin: 0;
+  }
+
+  .section-content h3 {
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: 1em;
+    font-weight: normal;
+  }
+
+  .section-content p {
+    margin: 0 0 1rem 0;
+  }
+
+  .two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .content-grid section {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header {
+      margin-bottom: 0.5rem;
+    }
+
+    .two-column {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .post-scroll {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin: 1rem 0;
+    overflow-y: visible;
+    position: relative;
+    width: 100%;
+
+    /* Create scrolling without visual cutoff */
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  }
+
+  .post-scroll:after {
+    content: "";
+    padding-right: 50px;
+  }
+
+  .post-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Remove hidden overflow from parent containers */
+  body,
+  html,
+  .content-grid {
+    overflow-x: visible;
+  }
+
+  /* Allow section to visually extend beyond boundaries */
+  section {
+    overflow: visible;
+  }
+
+  .post-card {
+    background-color: #ededed;
+    color: #000;
+    min-width: 240px;
+    height: 320px;
+    flex: 0 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    text-decoration: none;
+  }
+
+  .post-card h3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .post-label {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-tags {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+</style>
+
 <Base pageTitle={pageTitle}>
-  <p>
-    <a href="https://floral.computer">Meaning Alignment Institute</a>
-  </p>
-  <p>Everybody deserves a new computer.</p>
-  <p class="pt-6">~</p>
-  <p><a href="/writing/">Writing</a></p>
-  <p><a href="/work/">Recent Works</a></p>
-  <p><a href="/about/">About Me</a></p>
+  <div class="header">
+    <p>
+      <a href="https://www.meaningalignment.org">Meaning Alignment Institute</a>
+    </p>
+    <h1>AI, markets, and democracies aligned with what truly matters.</h1>
+  </div>
+
+  <div class="content-grid">
+    <section>
+      <h2 class="section-header">Research and Writing</h2>
+      <div class="section-content">
+        <p>Stay up to date, subscribe on Substack.</p>
+      </div>
+      <div class="post-scroll">
+        {
+          pinnedPosts.map((post) => (
+            <a href={`/writing/${post.id}/`} class="post-card">
+              <div class="post-label">Pinned</div>
+              <h3>{post.data.title}</h3>
+              <div class="post-tags">{post.data.description}</div>
+            </a>
+          ))
+        }
+
+        {
+          remainingPosts.map((post) => (
+            <a href={`/writing/${post.id}/`} class="post-card">
+              <h3>{post.data.title}</h3>
+              <div class="post-tags">{post.data.description}</div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-header">About</h2>
+      <div class="section-content">
+        <p>
+          The Meaning Alignment Institute aligns AI, markets, and democracies
+          with what makes life meaningful—we call this Full-Stack Alignment.
+        </p>
+        <p>
+          Collaborating with 30+ experts, we advance Full-Stack Alignment from
+          theory to practice. We're a non-profit supported by ARIA, OpenAI, SFF,
+          and others.
+        </p>
+        <p>
+          Want to help? Reach us at <a href="mailto:hello@meaningalignment.org"
+            >hello@meaningalignment.org</a
+          >
+        </p>
+
+        <h3>Research Network</h3>
+        <p>
+          Davidad • Serena Booth • Michiel Bakker • Shengwu Li • Ariel Procaccia
+          • Micah Carroll • Wes Holliday • Vince Conitzer • Paul Gölz • MH
+          Tessler • Rachel Calcott • Ariel Procaccia • Rachel Calcott • Ivan
+          Vendrov • Joel Lehman • Peli Grietzer • Rachel Calcott • Andreas Haupt
+          • Andrew Koh • Matija Franklin • Zoë Hitzig • Philipp Koralus • Ruth
+          Chang •
+        </p>
+
+        <div class="two-column">
+          <div>
+            <h3>Core Team</h3>
+            <p>
+              Ellie Hain<br />
+              Joe Edelman<br />
+              Oliver Klingefjord<br />
+              Ryan Lowe
+            </p>
+          </div>
+          <div>
+            <h3>Advisors</h3>
+            <p>
+              Peter Wang<br />
+              Aviv Ovayada<br />
+              Brian Christian<br />
+              Liv Boeree
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-header">Contact</h2>
+      <div class="section-content">
+        <p>
+          Interested in collaborating with us?<br />
+          <a href="mailto:research@meaningalignment.org"
+            >research@meaningalignment.org</a
+          >
+        </p>
+
+        <p>
+          General Inquiry<br />
+          <a href="mailto:hello@meaningalignment.org"
+            >hello@meaningalignment.org</a
+          >
+        </p>
+
+        <p>
+          Follow us elsewhere<br />
+          <a href="#">Substack</a><br />
+          <a href="#">X</a>
+        </p>
+
+        <p>
+          Berlin, Germany<br />
+          San Francisco, United States
+        </p>
+      </div>
+    </section>
+  </div>
 </Base>

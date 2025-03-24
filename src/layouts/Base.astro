@@ -17,13 +17,57 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <link rel="shortcut icon" type="image/png" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/appicon.png" />
     <link rel="mask-icon" href="/favicon.svg" color="#000000" />
+
+    <!-- Geist Mono Font Preloading -->
     <link
       rel="preload"
       as="font"
-      type="font/ttf"
-      href="/diatype.ttf"
+      type="font/woff2"
+      href="/geist/webfonts/GeistMono-Regular.woff2"
       crossorigin="anonymous"
     />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/geist/webfonts/GeistMono-Medium.woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/geist/webfonts/GeistMono[wght].woff2"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      /* Geist Mono Font Face Declarations */
+      @font-face {
+        font-family: "Geist Mono";
+        src: url("/geist/webfonts/GeistMono[wght].woff2")
+          format("woff2-variations");
+        font-weight: 100 900;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Geist Mono";
+        src: url("/geist/webfonts/GeistMono-Regular.woff2") format("woff2");
+        font-weight: 400;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Geist Mono";
+        src: url("/geist/webfonts/GeistMono-Medium.woff2") format("woff2");
+        font-weight: 500;
+        font-display: swap;
+        font-style: normal;
+      }
+    </style>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -57,7 +101,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       body {
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Geist Mono", "Times New Roman", Times, serif;
         font-size: 1.23em;
         -webkit-font-smoothing: antialiased;
         background-color: var(--bgColor, var(--fallback-bg-color));
@@ -68,6 +112,17 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       a {
         text-decoration: none;
+      }
+
+      h1 {
+        font-size: 3em;
+        font-weight: 222;
+      }
+
+      h2 {
+        font-size: 2em;
+        font-weight: 222;
+        opacity: 0.55;
       }
 
       @media screen and (min-width: 555px) {
@@ -92,7 +147,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     </style>
   </head>
   <body>
-    <p><a href="/">É. Urcades</a></p>
     <slot />
   </body>
 </html>
