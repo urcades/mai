@@ -55,6 +55,16 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   .sketch-info {
     position: relative;
     z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sketch-info-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .sketch p {
@@ -65,6 +75,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     color: var(--txtColorDark, var(--fallback-txt-color-dark));
     text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25);
     text-shadow: 1px 4px 8px color(display-p3 0 0 0 / 0.25);
+    margin: 0;
   }
 
   .featured {
@@ -87,6 +98,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   }
 
   em {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.22);
   }
 </style>
 
@@ -124,8 +136,10 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     <a href={url}>
       <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl}); --overlay-color: rgba(0, 0, 0, 0.3);`}>
         <div class="sketch-info">
-          <em>{category}</em>
-          <p>{title}</p>
+          <div class="sketch-info-top">
+            <em>{category}</em>
+            <p>{title}</p>
+          </div>
           <em>{description}</em>
         </div>
       </div>
