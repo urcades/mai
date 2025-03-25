@@ -1,7 +1,7 @@
 ---
 title: "Full Stack Alignment"
 pubDate: 2024-03-05
-description: Feb reflection, website status updates, flower computers again
+description: "report, democracy"
 foregroundColor: "lab(44 40 88)"
 backgroundColor: "lab(90 11 33)"
 foregroundColorDark: "lab(33 50 99)"

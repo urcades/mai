@@ -1,7 +1,7 @@
 ---
 title: "Model Integrity 1"
 pubDate: 2024-01-03
-description: Dia Background 1
+description: "report, democracy"
 coverImg: /images/covers/model-integrity.png
 ---
 

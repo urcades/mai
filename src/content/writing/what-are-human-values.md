@@ -1,7 +1,7 @@
 ---
 title: "What are Human Values?"
 pubDate: 2024-04-28
-description: April Ambling, Hardware, Towards a new Industrial Design
+description: "report, democracy"
 coverImg: /images/covers/what-are-human-values.png
 ---
 

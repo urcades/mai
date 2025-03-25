@@ -3,22 +3,68 @@ interface Props {
   imageUrl: string;
   title: string;
   category: string;
+  description: string;
   url?: string;
   size?: string;
   featured?: boolean;
 }
 
-const { imageUrl, title, category, url, size = "1", featured = false } = Astro.props;
+const { imageUrl, title, category, description, url, size = "1", featured = false } = Astro.props;
 ---
 
 <style>
   .sketch {
-    padding: 1rem 2rem;
+    padding: 1.23rem 1.23rem;
     width: 222px;
     height: 333px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 5px;
+    border-bottom: 2px solid var(--txtColor, var(--fallback-txt-color-faded));
+    position: relative;
+  }
+
+  .sketch::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--overlay-color, rgba(0, 0, 0, 0.3));
+    border-radius: 5px;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+    mix-blend-mode: plus-darker;
+  }
+
+  .sketch::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.33) 0%, rgba(0, 0, 0, 0.22) 15%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0.05) 60%, rgba(0, 0, 0, 0) 75%);
+    border-radius: 5px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .sketch-info {
+    position: relative;
+    z-index: 3;
+  }
+
+  .sketch p {
+    /* font-family: "Times New Roman", Times, serif; */
+    font-style: italic;
+    font-size: 2rem;
+    font-weight: 222;
+    color: var(--txtColorDark, var(--fallback-txt-color-dark));
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25);
+    text-shadow: 1px 4px 8px color(display-p3 0 0 0 / 0.25);
   }
 
   .featured {
@@ -31,6 +77,7 @@ const { imageUrl, title, category, url, size = "1", featured = false } = Astro.p
   em,
   a {
     text-decoration: none;
+    color: var(--txtColorDark, var(--fallback-txt-color-dark));
   }
 
   a {
@@ -38,15 +85,48 @@ const { imageUrl, title, category, url, size = "1", featured = false } = Astro.p
     width: fit-content;
     height: fit-content;
   }
+
+  em {
+  }
 </style>
+
+<script>
+  function sampleImageColor(element: HTMLElement): void {
+    const img = new Image();
+    img.src = element.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, "$1");
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0);
+
+      // Sample the color from the center of the image
+      const centerX = Math.floor(canvas.width / 2);
+      const centerY = Math.floor(canvas.height / 2);
+      const pixel = ctx.getImageData(centerX, centerY, 1, 1).data;
+
+      // Apply the sampled color with 50% opacity for multiply blend mode
+      element.style.setProperty("--overlay-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, 0.33)`);
+    };
+  }
+
+  // Run on all sketch elements
+  document.querySelectorAll(".sketch").forEach((el) => sampleImageColor(el as HTMLElement));
+</script>
 
 {
   url && (
     <a href={url}>
-      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl});`}>
+      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl}); --overlay-color: rgba(0, 0, 0, 0.3);`}>
         <div class="sketch-info">
-          <p>{title}</p>
           <em>{category}</em>
+          <p>{title}</p>
+          <em>{description}</em>
         </div>
       </div>
     </a>
