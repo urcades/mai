@@ -19,34 +19,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <link rel="mask-icon" href="/favicon.svg" color="#000000" />
 
     <!-- Geist Mono Font Preloading -->
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/geist/webfonts/GeistMono-Regular.woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/geist/webfonts/GeistMono-Medium.woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/geist/webfonts/GeistMono[wght].woff2"
-      crossorigin="anonymous"
-    />
+    <link rel="preload" as="font" type="font/woff2" href="/geist/webfonts/GeistMono-Regular.woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href="/geist/webfonts/GeistMono-Medium.woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href="/geist/webfonts/GeistMono[wght].woff2" crossorigin="anonymous" />
 
     <style>
       /* Geist Mono Font Face Declarations */
       @font-face {
         font-family: "Geist Mono";
-        src: url("/geist/webfonts/GeistMono[wght].woff2")
-          format("woff2-variations");
+        src: url("/geist/webfonts/GeistMono[wght].woff2") format("woff2-variations");
         font-weight: 100 900;
         font-display: swap;
         font-style: normal;
@@ -73,10 +54,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://meaningalignment.org/" />
     <meta property="og:title" content="Meaning Alignment Institute" />
-    <meta
-      property="og:description"
-      content="AI, markets, and democracies with what makes life meaningful"
-    />
+    <meta property="og:description" content="AI, markets, and democracies with what makes life meaningful" />
     <meta property="og:image" content="https://meaningalignment.org/og.png" />
 
     <!-- Twitter cards -->
@@ -84,29 +62,28 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <meta property="twitter:domain" content="meaningalignment.org" />
     <meta property="twitter:url" content="https://meaningalignment.org" />
     <meta name="twitter:title" content="Meaning Alignment Institute" />
-    <meta
-      name="twitter:description"
-      content="AI, markets, and democracies with what makes life meaningful"
-    />
+    <meta name="twitter:description" content="AI, markets, and democracies with what makes life meaningful" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://meaningalignment.org/og.png" />
 
     <!-- Special case blog post styling -->
-    <style
-      is:global
-      define:vars={{ txtColor, bgColor, txtColorDark, bgColorDark }}
-    >
+    <style is:global define:vars={{ txtColor, bgColor, txtColorDark, bgColorDark }}>
       * {
         --fallback-bg-color: #ffffff; /* Default light background color */
         --fallback-txt-color: #1a1818; /* Default light text color */
+        /* Low opacity variants */
+        --fallback-txt-color-faded: rgba(26, 24, 24, 0.11); /* 11% opacity of text color */
+        --fallback-bg-color-faded: rgba(255, 255, 255, 0.11); /* 11% opacity of background color */
         color: var(--txtColor, var(--fallback-txt-color));
       }
 
       html {
-        margin: 1.11em;
+        /* margin: 1.11em; */
+        margin: 0;
       }
 
       body {
+        margin: 0;
         font-family: "Geist Mono", "Courier New", Courier, monospace;
         font-size: 1.23em;
         -webkit-font-smoothing: antialiased;
@@ -137,8 +114,13 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       @media screen and (min-width: 555px) {
         html {
-          margin: 2em 2.55em;
+          /* margin: 2em 2.55em; */
+          margin: 0;
           padding-bottom: 2em;
+        }
+
+        body {
+          margin: 0;
         }
       }
 
@@ -146,6 +128,9 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         * {
           --fallback-bg-color-dark: #1a1818; /* Default dark background color */
           --fallback-txt-color-dark: #ffffff; /* Default dark text color */
+          /* Low opacity variants for dark mode */
+          --fallback-txt-color-dark-faded: rgba(255, 255, 255, 0.11); /* 11% opacity of dark text color */
+          --fallback-bg-color-dark-faded: rgba(26, 24, 24, 0.11); /* 11% opacity of dark background color */
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
         }
 

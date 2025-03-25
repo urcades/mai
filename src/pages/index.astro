@@ -20,16 +20,37 @@ const remainingPosts = sortedPosts.slice(2);
 ---
 
 <style>
+  header {
+    padding: 4rem;
+  }
   .content-grid section {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 2rem;
+    padding: 4rem;
     margin-bottom: 6rem;
     align-items: baseline;
+    border-top: solid 1px var(--fallback-txt-color-faded);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .content-grid section {
+      border-top: solid 1px var(--fallback-txt-color-dark-faded);
+    }
+  }
+
+  /* Special case for Research and Writing section */
+  .content-grid section:first-of-type {
+    align-items: end;
   }
 
   .section-header {
     margin: 0;
+    align-self: flex-start;
+  }
+
+  /* Ensure section header stays at top even in first section */
+  .content-grid section:first-of-type .section-header {
     align-self: flex-start;
   }
 
@@ -41,7 +62,7 @@ const remainingPosts = sortedPosts.slice(2);
   }
 
   .section-content h3 {
-    margin: 1.5rem 0 0.5rem 0;
+    margin: 2.22rem 0 0.5rem 0;
     font-size: 1em;
     font-weight: normal;
   }
@@ -57,8 +78,10 @@ const remainingPosts = sortedPosts.slice(2);
   }
 
   @media screen and (max-width: 768px) {
-    .content-grid section {
+    .content-grid section,
+    .content-grid section:first-of-type {
       grid-template-columns: 1fr;
+      align-items: baseline;
     }
 
     .section-header {
@@ -123,6 +146,22 @@ const remainingPosts = sortedPosts.slice(2);
     text-decoration: none;
   }
 
+  /* Dark mode variant for post cards */
+  @media (prefers-color-scheme: dark) {
+    .post-card {
+      background-color: #2a2a2a;
+      color: #f5f5f5;
+    }
+
+    .post-card h3 {
+      color: #f5f5f5;
+    }
+
+    .post-tags {
+      opacity: 0.8;
+    }
+  }
+
   .post-card h3 {
     font-size: 1.5rem;
     margin: 0;
@@ -169,10 +208,37 @@ const remainingPosts = sortedPosts.slice(2);
   .research-network li:last-child:after {
     content: "";
   }
+
+  /* Add specific styling for locations list */
+  .locations-list {
+    opacity: 0.55;
+    list-style-type: none;
+    padding: 0;
+    margin: 2.22rem 0 0 0;
+  }
+
+  .locations-list li {
+    margin-bottom: calc(var(--space-standard) / 3);
+  }
+
+  /* Special case for Research and Writing section content */
+  .content-grid section:first-of-type .section-content p {
+    margin: 0;
+  }
+
+  .content-grid section:first-of-type .section-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Remove top margin from first h3 in Contact section */
+  .content-grid section:last-of-type .section-content h3:first-of-type {
+    margin-top: 0;
+  }
 </style>
 
 <Base pageTitle={pageTitle}>
-  <header class="header">
+  <header>
     <p>
       <a href="https://www.meaningalignment.org">Meaning Alignment Institute</a>
     </p>
@@ -184,9 +250,7 @@ const remainingPosts = sortedPosts.slice(2);
       <h2 class="section-header">Research and Writing</h2>
       <div class="section-content">
         <p>
-          Stay up to date, subscribe on <a
-            href="https://meaningalignment.substack.com">Substack</a
-          >.
+          Stay up to date, subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
         </p>
       </div>
       <div class="post-scroll">
@@ -194,7 +258,7 @@ const remainingPosts = sortedPosts.slice(2);
           pinnedPosts.map((post) => (
             <a href={`/writing/${post.id}/`} class="post-card">
               <div class="post-label">Pinned</div>
-              <h3>{post.data.title}</h3>
+              <p>{post.data.title}</p>
               <div class="post-tags">{post.data.description}</div>
             </a>
           ))
@@ -203,7 +267,7 @@ const remainingPosts = sortedPosts.slice(2);
         {
           remainingPosts.map((post) => (
             <a href={`/writing/${post.id}/`} class="post-card">
-              <h3>{post.data.title}</h3>
+              <p>{post.data.title}</p>
               <div class="post-tags">{post.data.description}</div>
             </a>
           ))
@@ -215,18 +279,13 @@ const remainingPosts = sortedPosts.slice(2);
       <h2 class="section-header">About</h2>
       <div class="section-content">
         <p>
-          The Meaning Alignment Institute aligns AI, markets, and democracies
-          with what makes life meaningful—we call this Full-Stack Alignment.
+          The Meaning Alignment Institute aligns AI, markets, and democracies with what makes life meaningful — we call <a href="/writing/full-stack-alignment">Full-Stack Alignment</a>.
         </p>
         <p>
-          Collaborating with 30+ experts, we advance Full-Stack Alignment from
-          theory to practice. We're a non-profit supported by ARIA, OpenAI, SFF,
-          and others.
+          Collaborating with 30+ experts, we advance Full-Stack Alignment from theory to practice. We're a non-profit supported by ARIA, <a href="https://openai.com">OpenAI</a>, <a href="https://survivalandflourishing.fund">SFF</a>, and others.
         </p>
         <p>
-          Want to help? Reach us at <a href="mailto:hello@meaningalignment.org"
-            >hello@meaningalignment.org</a
-          >
+          Want to help? Reach us at <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
 
         <h3>Research Network</h3>
@@ -282,16 +341,12 @@ const remainingPosts = sortedPosts.slice(2);
       <div class="section-content">
         <h3>Interested in collaborating with us?</h3>
         <p>
-          <a href="mailto:research@meaningalignment.org"
-            >research@meaningalignment.org</a
-          >
+          <a href="mailto:research@meaningalignment.org">research@meaningalignment.org</a>
         </p>
 
         <h3>General Inquiry</h3>
         <p>
-          <a href="mailto:hello@meaningalignment.org"
-            >hello@meaningalignment.org</a
-          >
+          <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
 
         <h3>Follow us elsewhere</h3>
@@ -300,10 +355,10 @@ const remainingPosts = sortedPosts.slice(2);
           <a href="https://x.com/meaningaligned">X</a>
         </p>
 
-        <p>
-          Berlin, Germany<br />
-          San Francisco, United States
-        </p>
+        <ul class="locations-list">
+          <li>Berlin, Germany</li>
+          <li>San Francisco, United States</li>
+        </ul>
       </div>
     </section>
   </div>
