@@ -8,6 +8,14 @@ const pageTitle = "Meaning Alignment Institute";
 // Get blog posts from the writing collection
 const allPosts = await getCollection("writing");
 
+// Get people data from the people collection
+const allPeople = await getCollection("people");
+
+// Group people by category
+const researchPeople = allPeople.filter((person) => person.data.category === "research");
+const coreTeam = allPeople.filter((person) => person.data.category === "core");
+const advisors = allPeople.filter((person) => person.data.category === "advisor");
+
 // Sort posts by publication date (newest first)
 const sortedPosts = allPosts.sort((a, b) => {
   const dateA = new Date(a.id.substring(0, 6));
@@ -186,6 +194,84 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   .content-grid section:last-of-type .section-content h3:first-of-type {
     margin-top: 0;
   }
+
+  /* Hover info square styles */
+  .hover-info-square {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    height: 300px;
+    background-color: var(--fallback-bg-color);
+    border: 1px solid var(--fallback-txt-color-faded);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 256ms ease-in,
+      visibility 0s 256ms;
+    z-index: 1000;
+    overflow: auto;
+    pointer-events: none;
+  }
+
+  #hoverPortrait {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .hover-info-content {
+    text-align: center;
+    width: 100%;
+  }
+
+  #hoverName {
+    font-size: 1.5rem;
+    margin: 0 0 5px 0;
+  }
+
+  #hoverRole {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin: 0 0 10px 0;
+  }
+
+  #hoverBio {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-height: 120px;
+    overflow-y: auto;
+    margin: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hover-info-square {
+      background-color: var(--fallback-bg-color-dark);
+      border: 1px solid var(--fallback-txt-color-dark-faded);
+    }
+  }
+
+  .hover-info-square.active {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 256ms ease-in,
+      visibility 0s;
+  }
+
+  .hover-info-square.fade-out {
+    opacity: 0;
+    transition:
+      opacity 128ms ease-out,
+      visibility 0s 128ms;
+  }
 </style>
 
 <Base pageTitle={pageTitle}>
@@ -225,46 +311,70 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 
         <h3>Research Network</h3>
         <ul class="people-list research-network">
-          <li>Davidad</li>
-          <li>Serena Booth</li>
-          <li>Michiel Bakker</li>
-          <li>Shengwu Li</li>
-          <li>Ariel Procaccia</li>
-          <li>Micah Carroll</li>
-          <li>Wes Holliday</li>
-          <li>Vince Conitzer</li>
-          <li>Paul Gölz</li>
-          <li>MH Tessler</li>
-          <li>Rachel Calcott</li>
-          <li>Ivan Vendrov</li>
-          <li>Joel Lehman</li>
-          <li>Peli Grietzer</li>
-          <li>Rachel Calcott</li>
-          <li>Andreas Haupt</li>
-          <li>Andrew Koh</li>
-          <li>Matija Franklin</li>
-          <li>Zoë Hitzig</li>
-          <li>Philipp Koralus</li>
-          <li>Ruth Chang</li>
+          {researchPeople.map((person) => <li data-person-id={person.id}>{person.data.name}</li>)}
+          {/* Fallback for any missing people in the data */}
+          {
+            researchPeople.length === 0 && (
+              <>
+                <li>Davidad</li>
+                <li>Serena Booth</li>
+                <li>Michiel Bakker</li>
+                <li>Shengwu Li</li>
+                <li>Ariel Procaccia</li>
+                <li>Micah Carroll</li>
+                <li>Wes Holliday</li>
+                <li>Vince Conitzer</li>
+                <li>Paul Gölz</li>
+                <li>MH Tessler</li>
+                <li>Rachel Calcott</li>
+                <li>Ivan Vendrov</li>
+                <li>Joel Lehman</li>
+                <li>Peli Grietzer</li>
+                <li>Rachel Calcott</li>
+                <li>Andreas Haupt</li>
+                <li>Andrew Koh</li>
+                <li>Matija Franklin</li>
+                <li>Zoë Hitzig</li>
+                <li>Philipp Koralus</li>
+                <li>Ruth Chang</li>
+              </>
+            )
+          }
         </ul>
 
         <div class="two-column">
           <div>
             <h3>Core Team</h3>
             <ul class="people-list core-team">
-              <li>Ellie Hain</li>
-              <li>Joe Edelman</li>
-              <li>Oliver Klingefjord</li>
-              <li>Ryan Lowe</li>
+              {coreTeam.map((person) => <li data-person-id={person.id}>{person.data.name}</li>)}
+              {/* Fallback for any missing people in the data */}
+              {
+                coreTeam.length === 0 && (
+                  <>
+                    <li>Ellie Hain</li>
+                    <li>Joe Edelman</li>
+                    <li>Oliver Klingefjord</li>
+                    <li>Ryan Lowe</li>
+                  </>
+                )
+              }
             </ul>
           </div>
           <div>
             <h3>Advisors</h3>
             <ul class="people-list advisors">
-              <li>Peter Wang</li>
-              <li>Aviv Ovayada</li>
-              <li>Brian Christian</li>
-              <li>Liv Boeree</li>
+              {advisors.map((person) => <li data-person-id={person.id}>{person.data.name}</li>)}
+              {/* Fallback for any missing people in the data */}
+              {
+                advisors.length === 0 && (
+                  <>
+                    <li>Peter Wang</li>
+                    <li>Aviv Ovayada</li>
+                    <li>Brian Christian</li>
+                    <li>Liv Boeree</li>
+                  </>
+                )
+              }
             </ul>
           </div>
         </div>
@@ -297,9 +407,17 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
     </section>
   </div>
+  <div class="hover-info-square" id="hoverInfoSquare">
+    <img id="hoverPortrait" src="" alt="" />
+    <div class="hover-info-content">
+      <h4 id="hoverName"></h4>
+      <p id="hoverRole"></p>
+      <p id="hoverBio"></p>
+    </div>
+  </div>
 </Base>
 
-<script is:inline>
+<script define:vars={{ allPeople }}>
   // Prevent browser back navigation on horizontal scroll
   document.addEventListener("DOMContentLoaded", () => {
     const postScrolls = document.querySelectorAll(".post-scroll");
@@ -370,6 +488,62 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       if (e.isTrusted && document.activeElement?.closest(".post-scroll")) {
         history.pushState("", "", window.location.href);
       }
+    });
+
+    // Enhanced hover interaction for people lists
+    const personItems = document.querySelectorAll(".research-network li, .core-team li, .advisors li");
+    const hoverSquare = document.getElementById("hoverInfoSquare");
+    const hoverName = document.getElementById("hoverName");
+    const hoverRole = document.getElementById("hoverRole");
+    const hoverBio = document.getElementById("hoverBio");
+    const hoverPortrait = document.getElementById("hoverPortrait");
+    let hideTimeout;
+
+    // Create a map for quick lookup
+    const peopleMap = {};
+    if (allPeople) {
+      allPeople.forEach((person) => {
+        peopleMap[person.id] = person.data;
+      });
+    }
+
+    personItems.forEach((item) => {
+      item.addEventListener("mouseenter", () => {
+        clearTimeout(hideTimeout);
+
+        const personId = item.getAttribute("data-person-id");
+        if (personId && peopleMap[personId]) {
+          const personData = peopleMap[personId];
+
+          hoverName.textContent = personData.name;
+          hoverRole.textContent = personData.role;
+          hoverBio.textContent = personData.bio;
+
+          if (personData.portrait) {
+            hoverPortrait.src = personData.portrait;
+            hoverPortrait.alt = `Portrait of ${personData.name}`;
+            hoverPortrait.style.display = "block";
+          } else {
+            hoverPortrait.style.display = "none";
+          }
+        } else {
+          // Fallback for legacy items without data
+          hoverName.textContent = item.textContent.trim();
+          hoverRole.textContent = "";
+          hoverBio.textContent = "";
+          hoverPortrait.style.display = "none";
+        }
+
+        hoverSquare.classList.add("active");
+        hoverSquare.classList.remove("fade-out");
+      });
+
+      item.addEventListener("mouseleave", () => {
+        hoverSquare.classList.add("fade-out");
+        hideTimeout = setTimeout(() => {
+          hoverSquare.classList.remove("active");
+        }, 128);
+      });
     });
   });
 </script>

@@ -20,8 +20,21 @@ const writingCollection = defineCollection({
   }),
 });
 
+// Define the people collection
+const peopleCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    bio: z.string(),
+    portrait: z.string().optional(), // Path to image
+    category: z.enum(['research', 'core', 'advisor']),
+  }),
+});
+
 // Export a single `collections` object to register your collection(s)
 export const collections = {
   writing: writingCollection,
   drafts, // Potentially fix this later with a 'real' implementation of drafts
+  people: peopleCollection,
 };
