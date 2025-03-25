@@ -45,3 +45,7 @@ You might end up repeating the "Vary" process quite a bit before you find someth
 ![6.png](6.png)
 
 When you finally see a generation you've produced that you want to make high-res, click "Upscale Subtle". This will produce a single high quality image you can download to edit further in a program of your choice.
+
+## Post-editing
+
+You can use whatever you want to edit these photos, but to obtain the general look and feel of what I was producing, just add "Diffuse" noise to the image, which scatters its pixels around in a fuzzy way that I think is pretty pleasant. Adjust colors to get the look/feel you want for the website. Saturated primary colors feel good for the most part, or green/blue earthy tones. As a final step, you can apply 33% or so of monochromatic noise to the image to soften it a bit.
