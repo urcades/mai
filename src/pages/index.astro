@@ -45,7 +45,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         </p>
       </div>
       <div class="post-scroll">
-        {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category="Pinned" url={`/writing/${post.id}/`} featured={true} />)}
+        {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category="Featured" url={`/writing/${post.id}/`} featured={true} />)}
         {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)}
       </div>
     </section>
