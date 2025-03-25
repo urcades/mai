@@ -66,24 +66,34 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://meaningalignment.org/og.png" />
 
-    <!-- Special case blog post styling -->
+    <!-- Global Styles -->
     <style is:global define:vars={{ txtColor, bgColor, txtColorDark, bgColorDark }}>
+      /* CSS Variables */
+      :root {
+        --space-standard: 1rem;
+        --fallback-bg-color: #ffffff;
+        --fallback-txt-color: #1a1818;
+        --fallback-txt-color-faded: rgba(26, 24, 24, 0.11);
+        --fallback-bg-color-faded: rgba(255, 255, 255, 0.11);
+
+        --fallback-bg-color-dark: #1a1818;
+        --fallback-txt-color-dark: #ffffff;
+        --fallback-txt-color-dark-faded: rgba(255, 255, 255, 0.11);
+        --fallback-bg-color-dark-faded: rgba(26, 24, 24, 0.11);
+      }
+
+      /* Base Styling */
       * {
-        --fallback-bg-color: #ffffff; /* Default light background color */
-        --fallback-txt-color: #1a1818; /* Default light text color */
-        /* Low opacity variants */
-        --fallback-txt-color-faded: rgba(26, 24, 24, 0.11); /* 11% opacity of text color */
-        --fallback-bg-color-faded: rgba(255, 255, 255, 0.11); /* 11% opacity of background color */
         color: var(--txtColor, var(--fallback-txt-color));
       }
 
-      html {
-        /* margin: 1.11em; */
+      html,
+      body {
         margin: 0;
+        overflow: visible;
       }
 
       body {
-        margin: 0;
         font-family: "Geist Mono", "Courier New", Courier, monospace;
         font-size: 1.23em;
         -webkit-font-smoothing: antialiased;
@@ -91,6 +101,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         color: var(--txtColor, var(--fallback-txt-color));
       }
 
+      /* Typography */
       a {
         text-decoration: none;
       }
@@ -112,31 +123,250 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         opacity: 0.55;
       }
 
+      /* Layout Components */
+      header {
+        padding: 4rem;
+      }
+
+      .content-grid {
+        overflow: visible;
+      }
+
+      .content-grid section {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+        padding: 4rem 4rem 0 4rem;
+        margin-bottom: 6rem;
+        align-items: baseline;
+        border-top: solid 1px var(--fallback-txt-color-faded);
+        overflow: visible;
+      }
+
+      .section-header {
+        margin: 0;
+        align-self: flex-start;
+      }
+
+      .section-content {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      .section-content h3 {
+        margin: 2.22rem 0 0.5rem 0;
+        font-size: 1em;
+        font-weight: normal;
+      }
+
+      .section-content p {
+        margin: 0 0 1rem 0;
+      }
+
+      /* Special case sections */
+      .content-grid section:first-of-type {
+        align-items: end;
+      }
+
+      .content-grid section:first-of-type .section-header {
+        align-self: flex-start;
+      }
+
+      .content-grid section:first-of-type .section-content p,
+      .content-grid section:first-of-type .section-content {
+        margin: 0;
+        padding: 0;
+      }
+
+      .content-grid section:last-of-type .section-content h3:first-of-type {
+        margin-top: 0;
+      }
+
+      /* Grid and List Layouts */
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .post-scroll {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 1.11rem;
+        overflow-y: visible;
+        position: relative;
+        width: 100%;
+        overflow-x: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
+      }
+
+      .post-scroll:after {
+        content: "";
+        padding-right: 50px;
+      }
+
+      .post-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Lists */
+      .people-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0 0 var(--space-standard) 0;
+      }
+
+      .people-list li {
+        position: relative;
+        margin-bottom: calc(var(--space-standard) / 3);
+        cursor: pointer;
+      }
+
+      .research-network {
+        display: block;
+        margin-bottom: var(--space-standard);
+      }
+
+      .research-network li {
+        display: inline;
+      }
+
+      .research-network li:after {
+        content: ", ";
+      }
+
+      .research-network li:last-child:after {
+        content: "";
+      }
+
+      .locations-list {
+        opacity: 0.55;
+        list-style-type: none;
+        padding: 0;
+        margin: 2.22rem 0 0 0;
+      }
+
+      .locations-list li {
+        margin-bottom: calc(var(--space-standard) / 3);
+      }
+
+      /* Hover Info Component */
+      .hover-info-square {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 300px;
+        height: 300px;
+        background-color: var(--fallback-bg-color);
+        border: 1px solid var(--fallback-txt-color-faded);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 256ms ease-in,
+          visibility 0s 256ms;
+        z-index: 1000;
+        overflow: auto;
+        pointer-events: none;
+      }
+
+      #hoverPortrait {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 10px;
+      }
+
+      .hover-info-content {
+        text-align: center;
+        width: 100%;
+      }
+
+      #hoverName {
+        font-size: 1.5rem;
+        margin: 0 0 5px 0;
+      }
+
+      #hoverRole {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin: 0 0 10px 0;
+      }
+
+      #hoverBio {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        max-height: 120px;
+        overflow-y: auto;
+        margin: 0;
+      }
+
+      .hover-info-square.active {
+        opacity: 1;
+        visibility: visible;
+        transition:
+          opacity 256ms ease-in,
+          visibility 0s;
+      }
+
+      .hover-info-square.fade-out {
+        opacity: 0;
+        transition:
+          opacity 128ms ease-out,
+          visibility 0s 128ms;
+      }
+
+      /* Media Queries */
       @media screen and (min-width: 555px) {
         html {
-          /* margin: 2em 2.55em; */
-          margin: 0;
           padding-bottom: 2em;
-        }
-
-        body {
-          margin: 0;
         }
       }
 
-      @media (prefers-color-scheme: dark) {
-        * {
-          --fallback-bg-color-dark: #1a1818; /* Default dark background color */
-          --fallback-txt-color-dark: #ffffff; /* Default dark text color */
-          /* Low opacity variants for dark mode */
-          --fallback-txt-color-dark-faded: rgba(255, 255, 255, 0.11); /* 11% opacity of dark text color */
-          --fallback-bg-color-dark-faded: rgba(26, 24, 24, 0.11); /* 11% opacity of dark background color */
-          color: var(--txtColorDark, var(--fallback-txt-color-dark));
+      @media screen and (max-width: 768px) {
+        .content-grid section,
+        .content-grid section:first-of-type {
+          grid-template-columns: 1fr;
+          align-items: baseline;
         }
 
+        .section-header {
+          margin-bottom: 0.5rem;
+        }
+
+        .two-column {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Dark Mode */
+      @media (prefers-color-scheme: dark) {
         body {
           background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
+        }
+
+        * {
+          color: var(--txtColorDark, var(--fallback-txt-color-dark));
+        }
+
+        .content-grid section {
+          border-top: solid 1px var(--fallback-txt-color-dark-faded);
+        }
+
+        .hover-info-square {
+          background-color: var(--fallback-bg-color-dark);
+          border: 1px solid var(--fallback-txt-color-dark-faded);
         }
       }
     </style>
