@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
 import { getCollection } from "astro:content";
 
 const pageTitle = "Meaning Alignment Institute";
@@ -14,9 +15,9 @@ const sortedPosts = allPosts.sort((a, b) => {
   return dateB.getTime() - dateA.getTime();
 });
 
-// Identify two posts to pin (first two)
-const pinnedPosts = sortedPosts.slice(0, 2);
-const remainingPosts = sortedPosts.slice(2);
+// Filter featured posts and non-featured posts
+const pinnedPosts = sortedPosts.filter((post) => post.data.featured === true);
+const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 ---
 
 <style>
@@ -27,7 +28,7 @@ const remainingPosts = sortedPosts.slice(2);
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 2rem;
-    padding: 4rem;
+    padding: 4rem 4rem 0 4rem;
     margin-bottom: 6rem;
     align-items: baseline;
     border-top: solid 1px var(--fallback-txt-color-faded);
@@ -96,19 +97,16 @@ const remainingPosts = sortedPosts.slice(2);
   .post-scroll {
     grid-column: 1 / -1;
     display: flex;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    margin: 1rem 0;
+    gap: 1.11rem;
     overflow-y: visible;
     position: relative;
     width: 100%;
-
     /* Create scrolling without visual cutoff */
     overflow-x: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
   }
 
   .post-scroll:after {
@@ -124,57 +122,12 @@ const remainingPosts = sortedPosts.slice(2);
   body,
   html,
   .content-grid {
-    overflow-x: visible;
+    overflow: visible;
   }
 
   /* Allow section to visually extend beyond boundaries */
   section {
     overflow: visible;
-  }
-
-  .post-card {
-    background-color: #ededed;
-    color: #000;
-    min-width: 240px;
-    height: 320px;
-    flex: 0 0 auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    text-decoration: none;
-  }
-
-  /* Dark mode variant for post cards */
-  @media (prefers-color-scheme: dark) {
-    .post-card {
-      background-color: #2a2a2a;
-      color: #f5f5f5;
-    }
-
-    .post-card h3 {
-      color: #f5f5f5;
-    }
-
-    .post-tags {
-      opacity: 0.8;
-    }
-  }
-
-  .post-card h3 {
-    font-size: 1.5rem;
-    margin: 0;
-  }
-
-  .post-label {
-    font-style: italic;
-    margin-bottom: 0.5rem;
-  }
-
-  .post-tags {
-    font-size: 0.9rem;
-    opacity: 0.7;
   }
 
   .people-list {
@@ -184,9 +137,9 @@ const remainingPosts = sortedPosts.slice(2);
   }
 
   .people-list li {
-    position: relative; /* For positioning the hover card */
+    position: relative;
     margin-bottom: calc(var(--space-standard) / 3);
-    cursor: pointer; /* Indicates the item is interactive */
+    cursor: pointer;
   }
 
   /* Add specific styling for research network list */
@@ -197,12 +150,10 @@ const remainingPosts = sortedPosts.slice(2);
 
   .research-network li {
     display: inline;
-    /* margin-right: 0.5em; */
   }
 
   .research-network li:after {
     content: ", ";
-    /* margin-left: 0.5em; */
   }
 
   .research-network li:last-child:after {
@@ -240,7 +191,7 @@ const remainingPosts = sortedPosts.slice(2);
 <Base pageTitle={pageTitle}>
   <header>
     <p>
-      <a href="https://www.meaningalignment.org">Meaning Alignment Institute</a>
+      <a href="/">Meaning Alignment Institute</a>
     </p>
     <h1>AI, markets, and democracies aligned with what truly matters.</h1>
   </header>
@@ -254,24 +205,8 @@ const remainingPosts = sortedPosts.slice(2);
         </p>
       </div>
       <div class="post-scroll">
-        {
-          pinnedPosts.map((post) => (
-            <a href={`/writing/${post.id}/`} class="post-card">
-              <div class="post-label">Pinned</div>
-              <p>{post.data.title}</p>
-              <div class="post-tags">{post.data.description}</div>
-            </a>
-          ))
-        }
-
-        {
-          remainingPosts.map((post) => (
-            <a href={`/writing/${post.id}/`} class="post-card">
-              <p>{post.data.title}</p>
-              <div class="post-tags">{post.data.description}</div>
-            </a>
-          ))
-        }
+        {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category="Pinned" url={`/writing/${post.id}/`} featured={true} />)}
+        {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)}
       </div>
     </section>
 
@@ -363,3 +298,78 @@ const remainingPosts = sortedPosts.slice(2);
     </section>
   </div>
 </Base>
+
+<script is:inline>
+  // Prevent browser back navigation on horizontal scroll
+  document.addEventListener("DOMContentLoaded", () => {
+    const postScrolls = document.querySelectorAll(".post-scroll");
+
+    postScrolls.forEach((scrollArea) => {
+      let startX = 0;
+      let isScrolling = false;
+
+      // Track touch/mouse start position
+      scrollArea.addEventListener(
+        "touchstart",
+        function (e) {
+          startX = e.touches[0].clientX;
+          isScrolling = true;
+        },
+        { passive: false }
+      );
+
+      scrollArea.addEventListener("mousedown", function (e) {
+        startX = e.clientX;
+        isScrolling = true;
+      });
+
+      // Handle touch move
+      scrollArea.addEventListener(
+        "touchmove",
+        function (e) {
+          if (!isScrolling) return;
+
+          const touchX = e.touches[0].clientX;
+          const scrollLeft = scrollArea.scrollLeft;
+
+          // If at the left edge and trying to scroll further left
+          if (scrollLeft <= 0 && touchX > startX) {
+            e.preventDefault(); // Prevent the browser back navigation
+          }
+        },
+        { passive: false }
+      );
+
+      // Reset on end of interaction
+      const endScroll = function () {
+        isScrolling = false;
+      };
+
+      scrollArea.addEventListener("touchend", endScroll);
+      scrollArea.addEventListener("mouseup", endScroll);
+      scrollArea.addEventListener("mouseleave", endScroll);
+
+      // Also prevent wheel overscroll
+      scrollArea.addEventListener(
+        "wheel",
+        function (e) {
+          const scrollLeft = scrollArea.scrollLeft;
+
+          // If at the left edge and trying to scroll further left with wheel
+          if (scrollLeft <= 0 && e.deltaX < 0) {
+            e.preventDefault();
+          }
+        },
+        { passive: false }
+      );
+    });
+
+    // Block history navigation from swipe gestures
+    window.addEventListener("popstate", function (e) {
+      // Check if the navigation was triggered by a gesture from our scroll area
+      if (e.isTrusted && document.activeElement?.closest(".post-scroll")) {
+        history.pushState("", "", window.location.href);
+      }
+    });
+  });
+</script>

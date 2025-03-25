@@ -1,5 +1,5 @@
 ---
-title: "Model Integrity"
+title: "Model Integrity 1"
 pubDate: 2024-01-03
 description: Dia Background 1
 coverImg: ../../src/assets/covers/model-integrity.png

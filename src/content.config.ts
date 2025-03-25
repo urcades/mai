@@ -12,9 +12,11 @@ const writingCollection = defineCollection({
     pubDate: z.date(),
     description: z.string(),
     foregroundColor: z.string().optional(),
+    featured: z.boolean().optional().default(false),
     foregroundColorDark: z.string().optional(),
     backgroundColor: z.string().optional(),
     backgroundColorDark: z.string().optional(),
+    coverImg: z.string().optional(),
   }),
 });
 

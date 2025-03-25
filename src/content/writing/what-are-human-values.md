@@ -2,6 +2,7 @@
 title: "What are Human Values?"
 pubDate: 2024-04-28
 description: April Ambling, Hardware, Towards a new Industrial Design
+coverImg: ../../src/assets/covers/what-are-human-values.png
 ---
 
 We are heading to a future where powerful models, fine-tuned on individual preferences & operator intent, exacerbate societal issues like polarization and atomization. To avoid this, can we align AI to shared human values?
