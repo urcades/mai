@@ -70,16 +70,43 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
     <style is:global define:vars={{ txtColor, bgColor, txtColorDark, bgColorDark }}>
       /* CSS Variables */
       :root {
+        /* Spacing */
         --space-standard: 1rem;
+        --space-large: 2rem;
+        --space-xlarge: 4rem;
+        --space-xxlarge: 6rem;
+        --space-small: 0.5rem;
+
+        /* Typography */
+        --font-size-base: 1em;
+        --font-size-large: 1.23em;
+        --font-size-h1: min(3em, 10vw);
+        --font-size-h2: 2em;
+        --font-size-h3: 1em;
+        --font-weight-normal: 400;
+        --font-weight-medium: 500;
+        --font-weight-bold: 222;
+
+        /* Opacity */
+        --opacity-faded: 0.55;
+        --opacity-more-faded: 0.11;
+        --opacity-hover: 0.8;
+
+        /* Colors */
         --fallback-bg-color: #ffffff;
         --fallback-txt-color: #1a1818;
-        --fallback-txt-color-faded: rgba(26, 24, 24, 0.11);
-        --fallback-bg-color-faded: rgba(255, 255, 255, 0.11);
+        --fallback-txt-color-faded: rgba(26, 24, 24, var(--opacity-more-faded));
+        --fallback-txt-decoration-faded: rgba(26, 24, 24, var(--opacity-faded));
+        --fallback-bg-color-faded: rgba(255, 255, 255, var(--opacity-more-faded));
 
         --fallback-bg-color-dark: #1a1818;
         --fallback-txt-color-dark: #ffffff;
-        --fallback-txt-color-dark-faded: rgba(255, 255, 255, 0.11);
-        --fallback-bg-color-dark-faded: rgba(26, 24, 24, 0.11);
+        --fallback-txt-color-dark-faded: rgba(255, 255, 255, var(--opacity-more-faded));
+        --fallback-bg-color-dark-faded: rgba(26, 24, 24, var(--opacity-more-faded));
+
+        /* Transitions */
+        --transition-fast: 128ms;
+        --transition-normal: 256ms;
       }
 
       /* Base Styling */
@@ -95,7 +122,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       body {
         font-family: "Geist Mono", "Courier New", Courier, monospace;
-        font-size: 1em;
+        font-size: var(--font-size-base);
         -webkit-font-smoothing: antialiased;
         background-color: var(--bgColor, var(--fallback-bg-color));
         color: var(--txtColor, var(--fallback-txt-color));
@@ -103,29 +130,30 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       /* Typography */
       a {
-        text-decoration: none;
+        color: var(--txtColor, var(--fallback-txt-color));
+        text-decoration-color: var(--txtColor, var(--fallback-txt-decoration-faded));
       }
 
       h1 {
-        font-size: min(3em, 10vw);
-        font-weight: 222;
-        padding: 6rem 0;
+        font-size: var(--font-size-h1);
+        font-weight: var(--font-weight-bold);
+        padding: var(--space-xxlarge) 0;
         max-width: 20ch;
       }
 
       h2 {
-        font-size: 2em;
-        font-weight: 222;
-        opacity: 0.55;
+        font-size: var(--font-size-h2);
+        font-weight: var(--font-weight-bold);
+        opacity: var(--opacity-faded);
       }
 
       h3 {
-        opacity: 0.55;
+        opacity: var(--opacity-faded);
       }
 
       /* Layout Components */
       header {
-        padding: 1rem;
+        padding: var(--space-standard);
       }
 
       .content-grid {
@@ -135,9 +163,9 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       .content-grid section {
         display: grid;
         grid-template-columns: 1fr 2fr;
-        gap: 2rem;
-        padding: 1rem 1rem 0 1rem;
-        margin-bottom: 6rem;
+        gap: var(--space-large);
+        padding: var(--space-standard) var(--space-standard) 0 var(--space-standard);
+        margin-bottom: var(--space-xxlarge);
         align-items: baseline;
         border-top: solid 1px var(--fallback-txt-color-faded);
         overflow: visible;
@@ -156,13 +184,13 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       .section-content h3 {
-        margin: 2.22rem 0 0.5rem 0;
-        font-size: 1em;
-        font-weight: normal;
+        margin: 2.22rem 0 var(--space-small) 0;
+        font-size: var(--font-size-h3);
+        font-weight: var(--font-weight-normal);
       }
 
       .section-content p {
-        margin: 0 0 1rem 0;
+        margin: 0 0 var(--space-standard) 0;
       }
 
       /* Special case sections */
@@ -188,7 +216,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       .two-column {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: var(--space-standard);
       }
 
       .post-scroll {
@@ -207,7 +235,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       .post-scroll:after {
         content: "";
-        padding-right: 50px;
+        padding-right: var(--space-xlarge);
       }
 
       .post-scroll::-webkit-scrollbar {
@@ -246,7 +274,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       .locations-list {
-        opacity: 0.55;
+        opacity: var(--opacity-faded);
         list-style-type: none;
         padding: 0;
         margin: 2.22rem 0 0 0;
@@ -273,8 +301,8 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         opacity: 0;
         visibility: hidden;
         transition:
-          opacity 256ms ease-in,
-          visibility 0s 256ms;
+          opacity var(--transition-normal) ease-in,
+          visibility 0s var(--transition-normal);
         z-index: 1000;
         overflow: auto;
         pointer-events: none;
@@ -285,7 +313,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         height: 100px;
         object-fit: cover;
         border-radius: 50%;
-        margin-bottom: 10px;
+        margin-bottom: var(--space-small);
       }
 
       .hover-info-content {
@@ -295,13 +323,13 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       #hoverName {
         font-size: 1.5rem;
-        margin: 0 0 5px 0;
+        margin: 0 0 var(--space-small) 0;
       }
 
       #hoverRole {
-        font-size: 1rem;
-        opacity: 0.8;
-        margin: 0 0 10px 0;
+        font-size: var(--font-size-base);
+        opacity: var(--opacity-hover);
+        margin: 0 0 var(--space-standard) 0;
       }
 
       #hoverBio {
@@ -316,46 +344,44 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         opacity: 1;
         visibility: visible;
         transition:
-          opacity 256ms ease-in,
+          opacity var(--transition-normal) ease-in,
           visibility 0s;
       }
 
       .hover-info-square.fade-out {
         opacity: 0;
         transition:
-          opacity 128ms ease-out,
-          visibility 0s 128ms;
+          opacity var(--transition-fast) ease-out,
+          visibility 0s var(--transition-fast);
       }
 
       /* Media Queries */
-      /* 555px is the width of the first breakpoint */
       @media screen and (min-width: 555px) {
         html {
-          padding-bottom: 2em;
+          padding-bottom: var(--space-large);
         }
 
         body {
-          font-size: 1.23em;
+          font-size: var(--font-size-large);
         }
 
         header {
-          padding: 2rem;
+          padding: var(--space-large);
         }
 
         .content-grid section {
-          padding: 2rem 2rem 0 2rem;
-          margin-bottom: 6rem;
+          padding: var(--space-large) var(--space-large) 0 var(--space-large);
+          margin-bottom: var(--space-xxlarge);
         }
       }
 
-      /* 768px is the width of the second breakpoint */
       @media screen and (min-width: 768px) {
         header {
-          padding: 4rem;
+          padding: var(--space-xlarge);
         }
 
         .content-grid section {
-          padding: 4rem 4rem 0 4rem;
+          padding: var(--space-xlarge) var(--space-xlarge) 0 var(--space-xlarge);
         }
       }
 
@@ -367,7 +393,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         }
 
         .section-header {
-          margin-bottom: 0.5rem;
+          margin-bottom: var(--space-small);
         }
 
         .two-column {
