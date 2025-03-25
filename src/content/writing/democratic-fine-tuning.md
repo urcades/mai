@@ -2,7 +2,7 @@
 title: "Democratic Fine-tuning"
 pubDate: 2024-04-06
 description: April reflection
-coverImg: ../../src/assets/covers/democratic-fine-tuning.png
+coverImg: /images/covers/democratic-fine-tuning.png
 featured: true
 ---
 
