@@ -6,7 +6,7 @@ foregroundColor: "lab(44 40 88)"
 backgroundColor: "lab(90 11 33)"
 foregroundColorDark: "lab(33 50 99)"
 backgroundColorDark: "lab(1 20 90)"
-coverImg: ../../src/assets/covers/full-stack-alignment.png
+coverImg: /images/covers/full-stack-alignment.png
 featured: true
 ---
 
