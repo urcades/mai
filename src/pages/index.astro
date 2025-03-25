@@ -29,14 +29,14 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 ---
 
 <Base pageTitle={pageTitle}>
+  <!-- Title + Nav Section -->
   <header>
-    <p>
-      <a href="/">Meaning Alignment Institute</a>
-    </p>
+    <p><a href="/">Meaning Alignment Institute</a></p>
     <h1>AI, markets, and democracies aligned with what truly matters.</h1>
   </header>
 
   <div class="content-grid">
+    <!-- Research + Writing Section -->
     <section>
       <h2 class="section-header">Research and Writing</h2>
       <div class="section-content">
@@ -50,6 +50,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
     </section>
 
+    <!-- About + Organization Section -->
     <section>
       <h2 class="section-header">About</h2>
       <div class="section-content">
@@ -85,6 +86,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
     </section>
 
+    <!-- Contact + Socials Section -->
     <section>
       <h2 class="section-header">Contact</h2>
       <div class="section-content">
@@ -111,6 +113,8 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
     </section>
   </div>
+
+  <!-- On-hover info box -->
   <div class="hover-info-square" id="hoverInfoSquare">
     <img id="hoverPortrait" src="" alt="" />
     <div class="hover-info-content">

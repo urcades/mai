@@ -95,7 +95,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       body {
         font-family: "Geist Mono", "Courier New", Courier, monospace;
-        font-size: 1.23em;
+        font-size: 1em;
         -webkit-font-smoothing: antialiased;
         background-color: var(--bgColor, var(--fallback-bg-color));
         color: var(--txtColor, var(--fallback-txt-color));
@@ -125,7 +125,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       /* Layout Components */
       header {
-        padding: 4rem;
+        padding: 1rem;
       }
 
       .content-grid {
@@ -136,7 +136,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 2rem;
-        padding: 4rem 4rem 0 4rem;
+        padding: 1rem 1rem 0 1rem;
         margin-bottom: 6rem;
         align-items: baseline;
         border-top: solid 1px var(--fallback-txt-color-faded);
@@ -328,9 +328,34 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       /* Media Queries */
+      /* 555px is the width of the first breakpoint */
       @media screen and (min-width: 555px) {
         html {
           padding-bottom: 2em;
+        }
+
+        body {
+          font-size: 1.23em;
+        }
+
+        header {
+          padding: 2rem;
+        }
+
+        .content-grid section {
+          padding: 2rem 2rem 0 2rem;
+          margin-bottom: 6rem;
+        }
+      }
+
+      /* 768px is the width of the second breakpoint */
+      @media screen and (min-width: 768px) {
+        header {
+          padding: 4rem;
+        }
+
+        .content-grid section {
+          padding: 4rem 4rem 0 4rem;
         }
       }
 
