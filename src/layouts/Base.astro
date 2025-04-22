@@ -223,29 +223,36 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         grid-column: 1 / -1;
         position: relative;
         overflow: visible;
-        margin: 0 -1.5rem;
-        padding: 0 1rem;
+        margin: 0 -2rem;
+        padding: 0 1.5rem;
+        z-index: 1;
       }
 
       .post-scroll {
         grid-column: 1 / -1;
         display: flex;
         gap: 1.5rem;
-        overflow-y: visible;
+        overflow-y: hidden;
         position: relative;
         width: 100%;
         overflow-x: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
-        padding: 2rem 1rem;
-        margin: -2rem -1rem;
+        mask-image: linear-gradient(to right, black 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+        padding: 3rem 1rem;
+        margin: -3rem -1rem;
       }
 
       .post-scroll > * {
         transform: translateZ(0);
         will-change: transform;
+      }
+
+      /* Ensure content above the scroll has higher z-index */
+      .section-header, .section-content {
+        position: relative;
+        z-index: 2;
       }
 
       .post-scroll a {
