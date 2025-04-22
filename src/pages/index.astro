@@ -44,10 +44,12 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           Stay up to date, subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
         </p>
       </div>
-      <div class="post-scroll">
-        {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={`/writing/${post.id}/`} featured={true} />)}
-        {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={`/writing/${post.id}/`} />)}
-        <!-- {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)} -->
+      <div class="post-scroll-container">
+        <div class="post-scroll">
+          {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={`/writing/${post.id}/`} featured={true} />)}
+          {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={`/writing/${post.id}/`} />)}
+          <!-- {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)} -->
+        </div>
       </div>
     </section>
 
@@ -194,7 +196,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     // Block history navigation from swipe gestures
     window.addEventListener("popstate", function (e) {
       // Check if the navigation was triggered by a gesture from our scroll area
-      if (e.isTrusted && document.activeElement?.closest(".post-scroll")) {
+      if (e.isTrusted && document.activeElement?.closest(".post-scroll-container, .post-scroll")) {
         history.pushState("", "", window.location.href);
       }
     });
