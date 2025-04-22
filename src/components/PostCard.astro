@@ -28,7 +28,12 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     filter: drop-shadow(0 0 20px var(--card-glow-color, rgba(0, 0, 0, 0.15)));
     margin: 8px;
     overflow: visible;
-    transition: filter 0.3s ease;
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .sketch:hover {
+    filter: drop-shadow(0 0 25px var(--card-glow-color, rgba(0, 0, 0, 0.25)));
+    transform: translateY(-4px);
   }
 
   .sketch::before {
@@ -80,8 +85,12 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     font-weight: 222;
     color: var(--txtColorDark, var(--fallback-txt-color-dark));
     text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25);
-    text-shadow: 1px 4px 8px color(display-p3 0 0 0 / 0.25);
     margin: 0;
+  }
+
+  .sketch em {
+    font-family: "Times New Roman", Times, serif;
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.44);
   }
 
   em,
@@ -97,7 +106,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   }
 
   em {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.22);
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.32);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -166,12 +175,12 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
           if (maxValue === avgB) enhancedB = Math.min(255, avgB * 1.5);
           
           // Create an intensified glow color
-          const glowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.25)`;
+          const glowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.35)`;
           element.style.setProperty("--card-glow-color", glowColor);
           
           // Add a second color for featured cards if applicable
           if (element.classList.contains('featured')) {
-            const secondGlowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.35)`;
+            const secondGlowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.45)`;
             element.style.setProperty("--card-second-glow", secondGlowColor);
           }
         } catch (e) {
