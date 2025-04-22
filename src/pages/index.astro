@@ -31,13 +31,22 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 <Base pageTitle={pageTitle}>
   <!-- Title + Nav Section -->
   <header>
-    <p><a href="/">Meaning Alignment Institute</a></p>
+    <div class="header-content">
+      <p><a href="/">Meaning Alignment Institute</a></p>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
     <h1>AI, markets, and democracies aligned with what truly matters.</h1>
   </header>
 
   <div class="content-grid">
     <!-- Research + Writing Section -->
-    <section>
+    <section id="research">
       <h2 class="section-header">Research</h2>
       <div class="section-content">
         <p>
@@ -54,11 +63,11 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     </section>
 
     <!-- About + Organization Section -->
-    <section>
+    <section id="about">
       <h2 class="section-header">About</h2>
       <div class="section-content">
         <p>
-          The Meaning Alignment Institute aligns AI, markets, and democracies with what makes life meaningful — we call <a href="/writing/full-stack-alignment">Full-Stack Alignment</a>.
+          The Meaning Alignment Institute aligns AI, markets, and democracies with what makes life meaningful — we call this <a href="/writing/full-stack-alignment">Full-Stack Alignment</a>.
         </p>
         <p>
           Collaborating with 30+ experts, we advance Full-Stack Alignment from theory to practice. We're a non-profit supported by ARIA, <a href="https://openai.com">OpenAI</a>, <a href="https://survivalandflourishing.fund">SFF</a>, and others.
@@ -90,10 +99,10 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     </section>
 
     <!-- Contact + Socials Section -->
-    <section>
+    <section id="contact">
       <h2 class="section-header">Contact</h2>
       <div class="section-content">
-        <h3>Interested in collaborating with us?</h3>
+        <h3>Want to Collaborate?</h3>
         <p>
           <a href="mailto:research@meaningalignment.org">research@meaningalignment.org</a>
         </p>
@@ -103,7 +112,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
 
-        <h3>Follow us elsewhere</h3>
+        <h3>Follow Us</h3>
         <p>
           <a href="https://meaningalignment.substack.com">Substack</a><br />
           <a href="https://x.com/meaningaligned">X</a>
@@ -256,5 +265,79 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         }, 128);
       });
     });
+
+    // Smooth scrolling for navigation
+    const navLinks = document.querySelectorAll('.main-nav a');
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        
+        if (targetSection) {
+          window.scrollTo({
+            top: targetSection.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   });
 </script>
+
+<style>
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Header home link (Meaning Alignment Institute) */
+  .header-content p a {
+    color: var(--txtColor, var(--fallback-txt-color));
+    text-decoration: none;
+  }
+  
+  .main-nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Navigation links in header should be gray in both modes */
+  .main-nav a {
+    color: #777;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+  }
+  
+  .main-nav a:hover {
+    color: #999;
+  }
+  
+  /* Dark mode for header home link */
+  @media (prefers-color-scheme: dark) {
+    .header-content p a {
+      color: var(--txtColorDark, var(--fallback-txt-color-dark));
+      text-decoration: none;
+    }
+  }
+  
+  /* Hide navigation on small screens */
+  @media (max-width: 768px) {
+    .main-nav {
+      display: none;
+    }
+  }
+</style>

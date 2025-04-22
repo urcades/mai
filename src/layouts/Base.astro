@@ -104,6 +104,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         --fallback-txt-color-dark-faded: rgba(255, 255, 255, var(--opacity-more-faded));
         --fallback-bg-color-dark-faded: rgba(26, 24, 24, var(--opacity-more-faded));
 
+        /* Link Colors */
+        --link-color: #777;
+        --link-hover-color: #999;
+        --link-color-dark: #ffffff;
+        --link-hover-color-dark: rgba(255, 255, 255, 0.8);
+
         /* Transitions */
         --transition-fast: 128ms;
         --transition-normal: 256ms;
@@ -131,14 +137,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       /* Typography */
       a {
         color: var(--txtColor, var(--fallback-txt-color));
+        text-decoration: underline;
         text-decoration-color: var(--txtColor, var(--fallback-txt-decoration-faded));
       }
 
       h1 {
         font-size: var(--font-size-h1);
         font-weight: var(--font-weight-bold);
-        padding: var(--space-xxlarge) 0;
-        max-width: 20ch;
+        padding: var(--space-large) 0;
+        max-width: 30ch;
       }
 
       h2 {
@@ -167,8 +174,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         padding: var(--space-standard) var(--space-standard) 0 var(--space-standard);
         margin-bottom: var(--space-xxlarge);
         align-items: baseline;
-        border-top: solid 1px var(--fallback-txt-color-faded);
         overflow: visible;
+      }
+
+      /* Add borders between sections, but not for the first section */
+      .content-grid section + section {
+        border-top: solid 1px var(--fallback-txt-color-faded);
       }
 
       .section-header {
@@ -441,6 +452,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         a {
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
+          text-decoration: underline;
           text-decoration-color: var(--txtColorDark, var(--fallback-txt-decoration-faded));
         }
 
