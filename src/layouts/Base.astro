@@ -439,6 +439,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
         }
 
+        a {
+          color: var(--txtColorDark, var(--fallback-txt-color-dark));
+          text-decoration-color: var(--txtColorDark, var(--fallback-txt-decoration-faded));
+        }
+
         .content-grid section {
           border-top: solid 1px var(--fallback-txt-color-dark-faded);
         }
