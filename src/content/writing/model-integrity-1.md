@@ -2,7 +2,7 @@
 title: "Model Integrity 1"
 pubDate: 2024-01-03
 description: "report, democracy"
-coverImg: /images/covers/model-integrity.png
+coverImg: /images/covers/klingefjord_7.png
 ---
 
 > You may want a compliant assistant, but a co-founder with integrity. We propose 'model integrity' as an overlooked challenge in aligning LLM agents.

@@ -43,7 +43,6 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--overlay-color, rgba(0, 0, 0, 0.3));
     border-radius: 6px;
     z-index: 1;
     transition: background-color 0.3s ease;
@@ -207,7 +206,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
 {
   url && (
     <a href={url}>
-      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl}); --overlay-color: rgba(0, 0, 0, 0.3);`}>
+      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl});`}>
         <div class="sketch-info">
           <div class="sketch-info-top">
             <p>{title}</p>

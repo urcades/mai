@@ -2,7 +2,7 @@
 title: "Democratic Fine-tuning"
 pubDate: 2024-04-06
 description: "report, democracy"
-coverImg: /images/covers/democratic-fine-tuning.png
+coverImg: /images/covers/klingefjord_8.png
 featured: true
 ---
 
