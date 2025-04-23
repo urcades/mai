@@ -116,91 +116,32 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
 </style>
 
 <script>
-  // Wait for DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
     function sampleImageColor(element: HTMLElement): void {
-      const img = new Image();
-      const bgImage = element.style.backgroundImage || 
-        window.getComputedStyle(element).backgroundImage;
-      
-      if (!bgImage || bgImage === 'none') return;
-      
-      img.crossOrigin = "Anonymous";
-      img.src = bgImage.replace(/url\(['"](.+)['"]\)/, "$1");
+    const img = new Image();
+    img.src = element.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, "$1");
 
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+      canvas.width = img.width;
+      canvas.height = img.height;
 
-        ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0);
 
-        try {
-          // Sample the color from multiple points in the image for better results
-          const points = [
-            { x: Math.floor(canvas.width / 2), y: Math.floor(canvas.height / 2) },  // center
-            { x: Math.floor(canvas.width / 4), y: Math.floor(canvas.height / 4) },  // top-left
-            { x: Math.floor(canvas.width * 3/4), y: Math.floor(canvas.height / 4) } // top-right
-          ];
-          
-          let avgR = 0, avgG = 0, avgB = 0;
-          
-          // Calculate average color from these points
-          points.forEach(point => {
-            const pixel = ctx.getImageData(point.x, point.y, 1, 1).data;
-            avgR += pixel[0];
-            avgG += pixel[1];
-            avgB += pixel[2];
-          });
-          
-          avgR = Math.floor(avgR / points.length);
-          avgG = Math.floor(avgG / points.length);
-          avgB = Math.floor(avgB / points.length);
-          
-          // Apply the sampled color with different opacities
-          const overlayColor = `rgba(${avgR}, ${avgG}, ${avgB}, 0.4)`;
-          element.style.setProperty("--overlay-color", overlayColor);
-          
-          // Boost the dominant color channel to create a more vibrant glow
-          const maxValue = Math.max(avgR, avgG, avgB);
-          let enhancedR = avgR, enhancedG = avgG, enhancedB = avgB;
-          
-          // If a color channel is the dominant one, boost it even more
-          if (maxValue === avgR) enhancedR = Math.min(255, avgR * 1.5);
-          if (maxValue === avgG) enhancedG = Math.min(255, avgG * 1.5);
-          if (maxValue === avgB) enhancedB = Math.min(255, avgB * 1.5);
-          
-          // Create an intensified glow color
-          const glowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.35)`;
-          element.style.setProperty("--card-glow-color", glowColor);
-          
-          // Add a second color for featured cards if applicable
-          if (element.classList.contains('featured')) {
-            const secondGlowColor = `rgba(${enhancedR}, ${enhancedG}, ${enhancedB}, 0.45)`;
-            element.style.setProperty("--card-second-glow", secondGlowColor);
-          }
-        } catch (e) {
-          console.error("Error sampling image color:", e);
-        }
-      };
-      
-      img.onerror = () => {
-        console.error("Error loading image for color sampling");
-      };
-    }
+      // Sample the color from the center of the image
+      const centerX = Math.floor(canvas.width / 2);
+      const centerY = Math.floor(canvas.height / 2);
+      const pixel = ctx.getImageData(centerX, centerY, 1, 1).data;
 
-    // Run on all sketch elements with a small delay to ensure styles are computed
-    setTimeout(() => {
-      document.querySelectorAll(".sketch").forEach(el => {
-        if (el instanceof HTMLElement) {
-          sampleImageColor(el);
-        }
-      });
-    }, 100);
-  });
+      // Apply the sampled color to the card glow color
+      element.style.setProperty("--card-glow-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, 0.66)`);
+    };
+  }
+
+  // Run on all sketch elements
+  document.querySelectorAll(".sketch").forEach((el) => sampleImageColor(el as HTMLElement));
 </script>
 
 {
@@ -217,3 +158,5 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     </a>
   )
 }
+
+
