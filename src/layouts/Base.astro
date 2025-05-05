@@ -104,6 +104,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         --fallback-txt-color-dark-faded: rgba(255, 255, 255, var(--opacity-more-faded));
         --fallback-bg-color-dark-faded: rgba(26, 24, 24, var(--opacity-more-faded));
 
+        /* Link Colors */
+        --link-color: #777;
+        --link-hover-color: #999;
+        --link-color-dark: #ffffff;
+        --link-hover-color-dark: rgba(255, 255, 255, 0.8);
+
         /* Transitions */
         --transition-fast: 128ms;
         --transition-normal: 256ms;
@@ -131,14 +137,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       /* Typography */
       a {
         color: var(--txtColor, var(--fallback-txt-color));
+        text-decoration: underline;
         text-decoration-color: var(--txtColor, var(--fallback-txt-decoration-faded));
       }
 
       h1 {
         font-size: var(--font-size-h1);
         font-weight: var(--font-weight-bold);
-        padding: var(--space-xxlarge) 0;
-        max-width: 20ch;
+        padding: var(--space-large) 0;
+        max-width: 30ch;
       }
 
       h2 {
@@ -167,8 +174,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         padding: var(--space-standard) var(--space-standard) 0 var(--space-standard);
         margin-bottom: var(--space-xxlarge);
         align-items: baseline;
-        border-top: solid 1px var(--fallback-txt-color-faded);
         overflow: visible;
+      }
+
+      /* Add borders between sections, but not for the first section */
+      .content-grid section + section {
+        border-top: solid 1px var(--fallback-txt-color-faded);
       }
 
       .section-header {
@@ -219,18 +230,46 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         gap: var(--space-standard);
       }
 
+      .post-scroll-container {
+        grid-column: 1 / -1;
+        position: relative;
+        overflow: visible;
+        margin: 0 -2rem;
+        padding: 0 1.5rem;
+        z-index: 1;
+        max-width: 100vw;
+      }
+
       .post-scroll {
         grid-column: 1 / -1;
         display: flex;
-        gap: 1.11rem;
-        overflow-y: visible;
+        gap: 1.5rem;
+        overflow-y: hidden;
         position: relative;
         width: 100%;
         overflow-x: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, black 75%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0.4) 95%, transparent 100%);
+        mask-image: linear-gradient(to right, black 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+        padding: 3rem 1rem;
+        margin: -3rem -1rem;
+      }
+
+      .post-scroll > * {
+        transform: translateZ(0);
+        will-change: transform;
+      }
+
+      /* Ensure content above the scroll has higher z-index */
+      .section-header, .section-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .post-scroll a {
+        position: relative;
+        z-index: 1;
       }
 
       .post-scroll:after {
@@ -410,6 +449,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         * {
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
+        }
+
+        a {
+          color: var(--txtColorDark, var(--fallback-txt-color-dark));
+          text-decoration: underline;
+          text-decoration-color: var(--txtColorDark, var(--fallback-txt-decoration-faded));
         }
 
         .content-grid section {

@@ -8,7 +8,7 @@ export async function GET(context) {
   const blog = await getCollection("writing");
   return rss({
     title: "Meaning Alignment Institute",
-    description: "Research and Writing",
+    description: "Research",
     site: context.site,
     items: blog.map((post) => ({
       title: post.data.title,

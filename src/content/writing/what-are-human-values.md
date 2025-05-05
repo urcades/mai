@@ -2,7 +2,7 @@
 title: "What are Human Values?"
 pubDate: 2024-04-28
 description: "report, democracy"
-coverImg: /images/covers/what-are-human-values.png
+coverImg: /images/covers/klingefjord_5.png
 ---
 
 We are heading to a future where powerful models, fine-tuned on individual preferences & operator intent, exacerbate societal issues like polarization and atomization. To avoid this, can we align AI to shared human values?

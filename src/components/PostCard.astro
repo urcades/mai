@@ -20,9 +20,20 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 5px;
-    border-bottom: 2px solid var(--txtColor, var(--fallback-txt-color-faded));
+    box-sizing: border-box;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.11);
     position: relative;
+    isolation: isolate;
+    filter: drop-shadow(0 0 20px var(--card-glow-color, rgba(0, 0, 0, 0.15)));
+    margin: 8px;
+    overflow: visible;
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .sketch:hover {
+    filter: drop-shadow(0 0 25px var(--card-glow-color, rgba(0, 0, 0, 0.25)));
+    transform: translateY(-4px);
   }
 
   .sketch::before {
@@ -32,8 +43,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--overlay-color, rgba(0, 0, 0, 0.3));
-    border-radius: 5px;
+    border-radius: 6px;
     z-index: 1;
     transition: background-color 0.3s ease;
     mix-blend-mode: plus-darker;
@@ -47,7 +57,7 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     right: 0;
     bottom: 0;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.33) 0%, rgba(0, 0, 0, 0.22) 15%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0.05) 60%, rgba(0, 0, 0, 0) 75%);
-    border-radius: 5px;
+    border-radius: 6px;
     z-index: 2;
     pointer-events: none;
   }
@@ -68,21 +78,18 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   }
 
   .sketch p {
-    /* font-family: "Times New Roman", Times, serif; */
+    font-family: "Times New Roman", Times, serif;
     font-style: italic;
     font-size: 2rem;
     font-weight: 222;
     color: var(--txtColorDark, var(--fallback-txt-color-dark));
     text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25);
-    text-shadow: 1px 4px 8px color(display-p3 0 0 0 / 0.25);
     margin: 0;
   }
 
-  .featured {
-    box-shadow:
-      0 8px 32px rgba(173, 255, 47, 0.2),
-      0 4px 64px rgba(173, 255, 47, 0.1);
-    overflow: visible;
+  .sketch em {
+    font-family: "Times New Roman", Times, serif;
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.44);
   }
 
   em,
@@ -98,12 +105,18 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   }
 
   em {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.22);
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.32);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    a, em {
+      color: var(--txtColorDark, var(--fallback-txt-color-dark));
+    }
   }
 </style>
 
 <script>
-  function sampleImageColor(element: HTMLElement): void {
+    function sampleImageColor(element: HTMLElement): void {
     const img = new Image();
     img.src = element.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, "$1");
 
@@ -122,8 +135,8 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
       const centerY = Math.floor(canvas.height / 2);
       const pixel = ctx.getImageData(centerX, centerY, 1, 1).data;
 
-      // Apply the sampled color with 50% opacity for multiply blend mode
-      element.style.setProperty("--overlay-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, 0.33)`);
+      // Apply the sampled color to the card glow color
+      element.style.setProperty("--card-glow-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, 0.66)`);
     };
   }
 
@@ -134,10 +147,9 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
 {
   url && (
     <a href={url}>
-      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl}); --overlay-color: rgba(0, 0, 0, 0.3);`}>
+      <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl});`}>
         <div class="sketch-info">
           <div class="sketch-info-top">
-            <em>{category}</em>
             <p>{title}</p>
           </div>
           <em>{description}</em>
@@ -146,3 +158,5 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     </a>
   )
 }
+
+
