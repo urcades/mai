@@ -330,11 +330,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       /* Hover Info Component */
       .hover-info-square {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        width: 300px;
-        height: 300px;
         background-color: var(--fallback-bg-color);
         border: 1px solid var(--fallback-txt-color-faded);
         display: flex;
@@ -355,13 +350,14 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       #hoverPortrait {
         width: 100px;
         height: 100px;
+        border: 1px solid var(--fallback-txt-color-faded);
         object-fit: cover;
         border-radius: 50%;
         margin-bottom: var(--space-small);
       }
 
       .hover-info-content {
-        text-align: center;
+        text-align: left;
         width: 100%;
       }
 
@@ -382,6 +378,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         max-height: 120px;
         overflow-y: auto;
         margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .hover-info-square.active {
