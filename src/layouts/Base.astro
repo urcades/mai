@@ -80,7 +80,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         /* Typography */
         --font-size-base: 1em;
         --font-size-large: 1.23em;
-        --font-size-h1: min(3em, 10vw);
+        --font-size-h1: clamp(2rem, 5vw + 1rem, 7rem);
         --font-size-h2: 2em;
         --font-size-h3: 1em;
         --font-weight-normal: 400;
@@ -93,7 +93,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         --opacity-hover: 0.8;
 
         /* Colors */
-        --fallback-bg-color: #ffffff;
+        --fallback-bg-color: #fff9f2;
         --fallback-txt-color: #1a1818;
         --fallback-txt-color-faded: rgba(26, 24, 24, var(--opacity-more-faded));
         --fallback-txt-decoration-faded: rgba(26, 24, 24, var(--opacity-faded));
@@ -150,6 +150,24 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         font-weight: var(--font-weight-bold);
         padding: var(--space-large) 0;
         max-width: 30ch;
+        background: linear-gradient(90deg, #d9bb70, #e8d99e, #e6c87a, #d4b15a);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: gradientFlow 8s ease infinite;
+      }
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
 
       h2 {
