@@ -76,8 +76,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           Want to help? Reach us at <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
 
-        <!-- New hover information goes here -->
-        <div class="hover-info-card active" id="hoverInfoSquare">
+        <div class="hover-info-square" id="hoverInfoSquare">
           <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
           <div class="hover-info-content">
             <h4 id="hoverName">Joe Edelman</h4>
@@ -238,11 +237,9 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     personItems.forEach((item) => {
       item.addEventListener("mouseenter", () => {
         clearTimeout(hideTimeout);
-
         const personId = item.getAttribute("data-person-id");
         if (personId && peopleMap[personId]) {
           const personData = peopleMap[personId];
-
           hoverName.textContent = personData.name;
           hoverRole.textContent = personData.role;
           hoverBio.textContent = personData.bio;
@@ -254,17 +251,27 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           } else {
             hoverPortrait.style.display = "none";
           }
+
+          hoverCard.classList.remove("fade-out");
+          hoverCard.classList.add("active");
         }
       });
 
       item.addEventListener("mouseleave", () => {
-        // Reset to default state instead of hiding
-        hoverName.textContent = defaultState.name;
-        hoverRole.textContent = defaultState.role;
-        hoverBio.textContent = defaultState.bio;
-        hoverPortrait.src = defaultState.portrait;
-        hoverPortrait.alt = `Portrait of ${defaultState.name}`;
-        hoverPortrait.style.display = "block";
+        hideTimeout = setTimeout(() => {
+          hoverCard.classList.add("fade-out");
+          hoverCard.classList.remove("active");
+          
+          // Reset to default state after fade out
+          setTimeout(() => {
+            hoverName.textContent = defaultState.name;
+            hoverRole.textContent = defaultState.role;
+            hoverBio.textContent = defaultState.bio;
+            hoverPortrait.src = defaultState.portrait;
+            hoverPortrait.alt = `Portrait of ${defaultState.name}`;
+            hoverPortrait.style.display = "block";
+          }, 200);
+        }, 100);
       });
     });
 
@@ -344,31 +351,38 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   }
 
   /* Hover Info Component */
-  .hover-info-card {
-    width: 100%;
+  .hover-info-square {
     background-color: var(--bgColor, var(--fallback-bg-color));
     border: 1px solid var(--fallback-txt-color-faded);
     display: flex;
-    flex-direction: row;
-    gap: var(--space-large);
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: var(--space-large);
-    opacity: 1;
-    margin-top: var(--space-large);
-    margin-bottom: var(--space-large);
-    transition: all var(--transition-normal) ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal) ease-in,
+                visibility 0s var(--transition-normal);
+    z-index: 1000;
+    overflow: auto;
+    pointer-events: none;
+    position: fixed;
+    bottom: var(--space-large);
+    left: var(--space-large);
+    width: 300px;
   }
 
   #hoverPortrait {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
-    flex-shrink: 0;
+    margin-bottom: var(--space-small);
   }
 
   .hover-info-content {
-    flex: 1;
+    text-align: left;
+    width: 100%;
   }
 
   #hoverName {
@@ -386,11 +400,29 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     font-size: 0.9rem;
     line-height: 1.4;
     margin: 0;
+    display: -webkit-box;
+    
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hover-info-square.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--transition-normal) ease-in,
+                visibility 0s;
+  }
+
+  .hover-info-square.fade-out {
+    opacity: 0;
+    transition: opacity var(--transition-fast) ease-out,
+                visibility 0s var(--transition-fast);
   }
 
   /* Dark Mode */
   @media (prefers-color-scheme: dark) {
-    .hover-info-card {
+    .hover-info-square {
       background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
       border: 1px solid var(--fallback-txt-color-dark-faded);
     }
