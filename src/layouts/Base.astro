@@ -248,10 +248,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         grid-column: 1 / -1;
         position: relative;
         overflow: visible;
-        margin: 0;
+        margin: 0 calc(var(--space-standard) * -1);
+        width: calc(100% + var(--space-standard) * 2);
         padding: 0;
         z-index: 1;
-        width: 100%;
         box-sizing: border-box;
       }
 
@@ -265,11 +265,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         overflow-x: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
         padding: 3rem 0;
         margin: -3rem 0;
-        padding-left: var(--space-xlarge);
+        padding-left: var(--space-standard);
       }
 
       .post-scroll > * {
@@ -429,6 +429,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .content-grid section {
           padding: var(--space-large) var(--space-large) 0;
         }
+        
+        .post-scroll-container {
+          margin: 0 calc(var(--space-large) * -1);
+          width: calc(100% + var(--space-large) * 2);
+        }
+        
+        .post-scroll {
+          padding-left: var(--space-large);
+        }
       }
 
       @media screen and (min-width: 768px) {
@@ -438,6 +447,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         .content-grid section {
           padding: var(--space-xlarge) var(--space-xlarge) 0;
+        }
+        
+        .post-scroll-container {
+          margin: 0 calc(var(--space-xlarge) * -1);
+          width: calc(100% + var(--space-xlarge) * 2);
+        }
+        
+        .post-scroll {
+          padding-left: var(--space-xlarge);
         }
       }
 
@@ -454,6 +472,17 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         .two-column {
           grid-template-columns: 1fr;
+        }
+        
+        .post-scroll-container {
+          margin: 0 calc(var(--space-standard) * -1);
+          width: calc(100% + var(--space-standard) * 2);
+        }
+        
+        .post-scroll {
+          padding-left: var(--space-standard);
+          mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
         }
       }
 

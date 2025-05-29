@@ -137,76 +137,19 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 </Base>
 
 <script define:vars={{ allPeople }}>
-  // Prevent browser back navigation on horizontal scroll
   document.addEventListener("DOMContentLoaded", () => {
     const postScrolls = document.querySelectorAll(".post-scroll");
-
+    
     postScrolls.forEach((scrollArea) => {
-      let startX = 0;
-      let isScrolling = false;
+      // Prevent browser back navigation on horizontal scroll
+      scrollArea.addEventListener("wheel", function (e) {
+        const scrollLeft = scrollArea.scrollLeft;
 
-      // Track touch/mouse start position
-      scrollArea.addEventListener(
-        "touchstart",
-        function (e) {
-          startX = e.touches[0].clientX;
-          isScrolling = true;
-        },
-        { passive: false }
-      );
-
-      scrollArea.addEventListener("mousedown", function (e) {
-        startX = e.clientX;
-        isScrolling = true;
-      });
-
-      // Handle touch move
-      scrollArea.addEventListener(
-        "touchmove",
-        function (e) {
-          if (!isScrolling) return;
-
-          const touchX = e.touches[0].clientX;
-          const scrollLeft = scrollArea.scrollLeft;
-
-          // If at the left edge and trying to scroll further left
-          if (scrollLeft <= 0 && touchX > startX) {
-            e.preventDefault(); // Prevent the browser back navigation
-          }
-        },
-        { passive: false }
-      );
-
-      // Reset on end of interaction
-      const endScroll = function () {
-        isScrolling = false;
-      };
-
-      scrollArea.addEventListener("touchend", endScroll);
-      scrollArea.addEventListener("mouseup", endScroll);
-      scrollArea.addEventListener("mouseleave", endScroll);
-
-      // Also prevent wheel overscroll
-      scrollArea.addEventListener(
-        "wheel",
-        function (e) {
-          const scrollLeft = scrollArea.scrollLeft;
-
-          // If at the left edge and trying to scroll further left with wheel
-          if (scrollLeft <= 0 && e.deltaX < 0) {
-            e.preventDefault();
-          }
-        },
-        { passive: false }
-      );
-    });
-
-    // Block history navigation from swipe gestures
-    window.addEventListener("popstate", function (e) {
-      // Check if the navigation was triggered by a gesture from our scroll area
-      if (e.isTrusted && document.activeElement?.closest(".post-scroll-container, .post-scroll")) {
-        history.pushState("", "", window.location.href);
-      }
+        // If at the left edge and trying to scroll further left with wheel
+        if (scrollLeft <= 0 && e.deltaX < 0) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     });
 
     // Enhanced hover interaction for people lists
@@ -334,6 +277,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   .main-nav a:hover {
     color: #999;
   }
+  
   
   /* Dark mode for header home link */
   @media (prefers-color-scheme: dark) {
