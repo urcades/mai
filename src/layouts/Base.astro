@@ -237,22 +237,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         grid-column: 1 / -1;
         position: relative;
         overflow: visible;
-        margin: 0;
-        padding: 0;
-        z-index: 1;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .post-scroll-container {
-        grid-column: 1 / -1;
-        position: relative;
-        overflow: visible;
         margin: 0 calc(var(--space-standard) * -1);
         width: calc(100% + var(--space-standard) * 2);
         padding: 0;
         z-index: 1;
         box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
       }
 
       .post-scroll {
@@ -260,9 +250,9 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         display: flex;
         gap: 1.5rem;
         overflow-y: hidden;
+        overflow-x: scroll;
         position: relative;
         width: 100%;
-        overflow-x: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
         mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
@@ -270,11 +260,18 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         padding: 3rem 0;
         margin: -3rem 0;
         padding-left: var(--space-standard);
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
+      }
+
+      .post-scroll::-webkit-scrollbar {
+        display: none;
       }
 
       .post-scroll > * {
         transform: translateZ(0);
         will-change: transform;
+        flex-shrink: 0;
       }
 
       /* Ensure content above the scroll has higher z-index */
@@ -292,10 +289,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       .post-scroll:after {
         content: "";
         padding-right: var(--space-xlarge);
-      }
-
-      .post-scroll::-webkit-scrollbar {
-        display: none;
       }
 
       /* Lists */
@@ -448,20 +441,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .content-grid section {
           padding: var(--space-xlarge) var(--space-xlarge) 0;
         }
-        
-        .post-scroll-container {
-          margin: 0 calc(var(--space-xlarge) * -1);
-          width: calc(100% + var(--space-xlarge) * 2);
-        }
-        
-        .post-scroll {
-          padding-left: var(--space-xlarge);
-        }
       }
 
       @media screen and (max-width: 768px) {
-        .content-grid section,
-        .content-grid section:first-of-type {
+        .content-grid section:not(#research),
+        .content-grid section:first-of-type:not(#research) {
           grid-template-columns: 1fr;
           align-items: baseline;
         }
@@ -473,16 +457,25 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .two-column {
           grid-template-columns: 1fr;
         }
-        
-        .post-scroll-container {
+
+        /* Make research section LOOK like single column while keeping 2-column grid */
+        #research .section-header {
+          grid-column: 1 / -1;
+        }
+
+        #research .section-content {
+          grid-column: 1 / -1;
+        }
+
+        /* Ensure research section post-scroll spans full width */
+        #research .post-scroll-container {
+          grid-column: 1 / -1;
           margin: 0 calc(var(--space-standard) * -1);
           width: calc(100% + var(--space-standard) * 2);
         }
-        
-        .post-scroll {
+
+        #research .post-scroll {
           padding-left: var(--space-standard);
-          mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
         }
       }
 
@@ -520,7 +513,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
           background-color: var(--fallback-bg-color-dark);
           border: 1px solid var(--fallback-txt-color-dark-faded);
         }
-      }
       }
     </style>
   </head>
