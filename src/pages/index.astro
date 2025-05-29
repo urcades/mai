@@ -67,14 +67,23 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       <h2 class="section-header">About</h2>
       <div class="section-content">
         <p>
-          The Meaning Alignment Institute aligns AI, markets, and democracies with what makes life meaningful — we call this <a href="/writing/full-stack-alignment">Full-Stack Alignment</a>.
+          The Meaning Alignment Institute aligns AI, markets, and democracies with what makes life meaningful. We call this <a href="/writing/full-stack-alignment">Full-Stack Alignment</a>.
         </p>
         <p>
-          Collaborating with 30+ experts, we advance Full-Stack Alignment research cal from theory to practice. We're a non-profit supported by ARIA, <a href="https://openai.com">OpenAI</a>, <a href="https://survivalandflourishing.fund">SFF</a>, and others.
+          Collaborating with 30+ experts, we advance Full-Stack Alignment research from theory to practice. We're a non-profit supported by ARIA, <a href="https://openai.com">OpenAI</a>, <a href="https://survivalandflourishing.fund">SFF</a>, and others.
         </p>
         <p>
           Want to help? Reach us at <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
+
+        <div class="hover-info-square" id="hoverInfoSquare">
+          <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
+          <div class="hover-info-content">
+            <h4 id="hoverName">Joe Edelman</h4>
+            <p id="hoverRole">Founder & Director</p>
+            <p id="hoverBio">Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.</p>
+          </div>
+        </div>
 
         <h3>Research Network</h3>
         <ul class="people-list research-network">
@@ -124,16 +133,6 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         </ul>
       </div>
     </section>
-  </div>
-
-  <!-- On-hover info box -->
-  <div class="hover-info-square" id="hoverInfoSquare">
-    <img id="hoverPortrait" src="" alt="" />
-    <div class="hover-info-content">
-      <h4 id="hoverName"></h4>
-      <p id="hoverRole"></p>
-      <p id="hoverBio"></p>
-    </div>
   </div>
 </Base>
 
@@ -212,12 +211,20 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 
     // Enhanced hover interaction for people lists
     const personItems = document.querySelectorAll(".research-network li, .core-team li, .advisors li");
-    const hoverSquare = document.getElementById("hoverInfoSquare");
+    const hoverCard = document.getElementById("hoverInfoSquare");
     const hoverName = document.getElementById("hoverName");
     const hoverRole = document.getElementById("hoverRole");
     const hoverBio = document.getElementById("hoverBio");
     const hoverPortrait = document.getElementById("hoverPortrait");
     let hideTimeout;
+
+    // Store default state
+    const defaultState = {
+      name: "Joe Edelman",
+      role: "Founder & Director",
+      bio: "Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.",
+      portrait: "/images/people/joe-edelman.png"
+    };
 
     // Create a map for quick lookup
     const peopleMap = {};
@@ -230,11 +237,9 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     personItems.forEach((item) => {
       item.addEventListener("mouseenter", () => {
         clearTimeout(hideTimeout);
-
         const personId = item.getAttribute("data-person-id");
         if (personId && peopleMap[personId]) {
           const personData = peopleMap[personId];
-
           hoverName.textContent = personData.name;
           hoverRole.textContent = personData.role;
           hoverBio.textContent = personData.bio;
@@ -246,23 +251,27 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           } else {
             hoverPortrait.style.display = "none";
           }
-        } else {
-          // Fallback for legacy items without data
-          hoverName.textContent = item.textContent.trim();
-          hoverRole.textContent = "";
-          hoverBio.textContent = "";
-          hoverPortrait.style.display = "none";
-        }
 
-        hoverSquare.classList.add("active");
-        hoverSquare.classList.remove("fade-out");
+          hoverCard.classList.remove("fade-out");
+          hoverCard.classList.add("active");
+        }
       });
 
       item.addEventListener("mouseleave", () => {
-        hoverSquare.classList.add("fade-out");
         hideTimeout = setTimeout(() => {
-          hoverSquare.classList.remove("active");
-        }, 128);
+          hoverCard.classList.add("fade-out");
+          hoverCard.classList.remove("active");
+          
+          // Reset to default state after fade out
+          setTimeout(() => {
+            hoverName.textContent = defaultState.name;
+            hoverRole.textContent = defaultState.role;
+            hoverBio.textContent = defaultState.bio;
+            hoverPortrait.src = defaultState.portrait;
+            hoverPortrait.alt = `Portrait of ${defaultState.name}`;
+            hoverPortrait.style.display = "block";
+          }, 200);
+        }, 100);
       });
     });
 
@@ -338,6 +347,84 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   @media (max-width: 768px) {
     .main-nav {
       display: none;
+    }
+  }
+
+  /* Hover Info Component */
+  .hover-info-square {
+    background-color: var(--bgColor, var(--fallback-bg-color));
+    border: 1px solid var(--fallback-txt-color-faded);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-large);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal) ease-in,
+                visibility 0s var(--transition-normal);
+    z-index: 1000;
+    overflow: auto;
+    pointer-events: none;
+    position: fixed;
+    bottom: var(--space-large);
+    left: var(--space-large);
+    width: 300px;
+  }
+
+  #hoverPortrait {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: var(--space-small);
+  }
+
+  .hover-info-content {
+    text-align: left;
+    width: 100%;
+  }
+
+  #hoverName {
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-small) 0;
+  }
+
+  #hoverRole {
+    font-size: var(--font-size-base);
+    opacity: var(--opacity-hover);
+    margin: 0 0 var(--space-standard) 0;
+  }
+
+  #hoverBio {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hover-info-square.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--transition-normal) ease-in,
+                visibility 0s;
+  }
+
+  .hover-info-square.fade-out {
+    opacity: 0;
+    transition: opacity var(--transition-fast) ease-out,
+                visibility 0s var(--transition-fast);
+  }
+
+  /* Dark Mode */
+  @media (prefers-color-scheme: dark) {
+    .hover-info-square {
+      background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
+      border: 1px solid var(--fallback-txt-color-dark-faded);
     }
   }
 </style>
