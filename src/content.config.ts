@@ -17,6 +17,7 @@ const writingCollection = defineCollection({
     backgroundColor: z.string().optional(),
     backgroundColorDark: z.string().optional(),
     coverImg: z.string().optional(),
+    externalUrl: z.string().optional()
   }),
 });
 

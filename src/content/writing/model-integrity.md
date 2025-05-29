@@ -3,6 +3,7 @@ title: "Model Integrity"
 pubDate: 2024-01-03
 description: "report, democracy"
 coverImg: /images/covers/klingefjord_4.png
+externalUrl: "https://meaningalignment.substack.com/p/model-integrity"
 ---
 
 > You may want a compliant assistant, but a co-founder with integrity. We propose 'model integrity' as an overlooked challenge in aligning LLM agents.

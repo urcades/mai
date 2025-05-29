@@ -16,10 +16,10 @@ const researchPeople = allPeople.filter((person) => person.data.category === "re
 const coreTeam = allPeople.filter((person) => person.data.category === "core");
 const advisors = allPeople.filter((person) => person.data.category === "advisor");
 
-// Sort posts by publication date (newest first)
+// Sort on pub date
 const sortedPosts = allPosts.sort((a, b) => {
-  const dateA = new Date(a.id.substring(0, 6));
-  const dateB = new Date(b.id.substring(0, 6));
+  const dateA = new Date(a.data.pubDate);
+  const dateB = new Date(b.data.pubDate); 
   return dateB.getTime() - dateA.getTime();
 });
 
@@ -55,9 +55,8 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
       <div class="post-scroll-container">
         <div class="post-scroll">
-          {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={`/writing/${post.id}/`} featured={true} />)}
-          {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={`/writing/${post.id}/`} />)}
-          <!-- {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)} -->
+          {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={post.data.externalUrl ?? `/writing/${post.id}/`} featured={true} />)}
+          {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={post.data.externalUrl ?? `/writing/${post.id}/`} />)}
         </div>
       </div>
     </section>
