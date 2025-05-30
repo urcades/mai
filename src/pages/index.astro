@@ -16,10 +16,10 @@ const researchPeople = allPeople.filter((person) => person.data.category === "re
 const coreTeam = allPeople.filter((person) => person.data.category === "core");
 const advisors = allPeople.filter((person) => person.data.category === "advisor");
 
-// Sort posts by publication date (newest first)
+// Sort on pub date
 const sortedPosts = allPosts.sort((a, b) => {
-  const dateA = new Date(a.id.substring(0, 6));
-  const dateB = new Date(b.id.substring(0, 6));
+  const dateA = new Date(a.data.pubDate);
+  const dateB = new Date(b.data.pubDate); 
   return dateB.getTime() - dateA.getTime();
 });
 
@@ -55,9 +55,8 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       </div>
       <div class="post-scroll-container">
         <div class="post-scroll">
-          {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={`/writing/${post.id}/`} featured={true} />)}
-          {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={`/writing/${post.id}/`} />)}
-          <!-- {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} category={post.data.description} url={`/writing/${post.id}/`} />)} -->
+          {pinnedPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="Featured" url={post.data.externalUrl ?? `/writing/${post.id}/`} featured={true} />)}
+          {remainingPosts.map((post) => <PostCard imageUrl={post.data.coverImg || "/src/assets/covers/full-stack-alignment.png"} title={post.data.title} description={post.data.description} category="&nbsp" url={post.data.externalUrl ?? `/writing/${post.id}/`} />)}
         </div>
       </div>
     </section>
@@ -137,76 +136,19 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 </Base>
 
 <script define:vars={{ allPeople }}>
-  // Prevent browser back navigation on horizontal scroll
   document.addEventListener("DOMContentLoaded", () => {
     const postScrolls = document.querySelectorAll(".post-scroll");
-
+    
     postScrolls.forEach((scrollArea) => {
-      let startX = 0;
-      let isScrolling = false;
+      // Prevent browser back navigation on horizontal scroll
+      scrollArea.addEventListener("wheel", function (e) {
+        const scrollLeft = scrollArea.scrollLeft;
 
-      // Track touch/mouse start position
-      scrollArea.addEventListener(
-        "touchstart",
-        function (e) {
-          startX = e.touches[0].clientX;
-          isScrolling = true;
-        },
-        { passive: false }
-      );
-
-      scrollArea.addEventListener("mousedown", function (e) {
-        startX = e.clientX;
-        isScrolling = true;
-      });
-
-      // Handle touch move
-      scrollArea.addEventListener(
-        "touchmove",
-        function (e) {
-          if (!isScrolling) return;
-
-          const touchX = e.touches[0].clientX;
-          const scrollLeft = scrollArea.scrollLeft;
-
-          // If at the left edge and trying to scroll further left
-          if (scrollLeft <= 0 && touchX > startX) {
-            e.preventDefault(); // Prevent the browser back navigation
-          }
-        },
-        { passive: false }
-      );
-
-      // Reset on end of interaction
-      const endScroll = function () {
-        isScrolling = false;
-      };
-
-      scrollArea.addEventListener("touchend", endScroll);
-      scrollArea.addEventListener("mouseup", endScroll);
-      scrollArea.addEventListener("mouseleave", endScroll);
-
-      // Also prevent wheel overscroll
-      scrollArea.addEventListener(
-        "wheel",
-        function (e) {
-          const scrollLeft = scrollArea.scrollLeft;
-
-          // If at the left edge and trying to scroll further left with wheel
-          if (scrollLeft <= 0 && e.deltaX < 0) {
-            e.preventDefault();
-          }
-        },
-        { passive: false }
-      );
-    });
-
-    // Block history navigation from swipe gestures
-    window.addEventListener("popstate", function (e) {
-      // Check if the navigation was triggered by a gesture from our scroll area
-      if (e.isTrusted && document.activeElement?.closest(".post-scroll-container, .post-scroll")) {
-        history.pushState("", "", window.location.href);
-      }
+        // If at the left edge and trying to scroll further left with wheel
+        if (scrollLeft <= 0 && e.deltaX < 0) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     });
 
     // Enhanced hover interaction for people lists
@@ -334,6 +276,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   .main-nav a:hover {
     color: #999;
   }
+  
   
   /* Dark mode for header home link */
   @media (prefers-color-scheme: dark) {
