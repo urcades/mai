@@ -363,6 +363,18 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
                 visibility 0s var(--transition-fast);
   }
 
+  /* Mobile positioning */
+  @media (max-width: 768px) {
+    .hover-info-square {
+      top: var(--space-large);
+      bottom: auto;
+      left: var(--space-large);
+      right: var(--space-large);
+      width: auto;
+      transform: none;
+    }
+  }
+
   /* Dark Mode */
   @media (prefers-color-scheme: dark) {
     .hover-info-square {
