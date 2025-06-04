@@ -1,12 +1,13 @@
 ---
 title: "Full Stack Alignment"
-pubDate: 2024-03-05
-description: "report, democracy"
+pubDate: 2025-05-29
+description: "paper"
 foregroundColor: "lab(44 40 88)"
 backgroundColor: "lab(90 11 33)"
 foregroundColorDark: "lab(33 50 99)"
 backgroundColorDark: "lab(1 20 90)"
-coverImg: /images/covers/klingefjord_2.png
+coverImg: /images/covers/klingefjord_2.jpg
+externalUrl: "https://full-stack-alignment.ai"
 featured: true
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: "Democratic Fine-tuning"
-pubDate: 2024-04-06
-description: "report, democracy"
-coverImg: /images/covers/klingefjord_8.png
-featured: true
+pubDate: 2023-06-12
+description: "blog post"
+coverImg: /images/covers/klingefjord_8.jpg
+externalUrl: "https://meaningalignment.substack.com/p/introducing-democratic-fine-tuning"
 ---
 
 # **Introducing Democratic Fine-Tuning**
