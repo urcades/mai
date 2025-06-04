@@ -127,6 +127,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         padding: 0;
         overflow-x: hidden;
         width: 100%;
+        max-width: 100vw;
       }
 
       body {
@@ -136,6 +137,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         background-color: var(--bgColor, var(--fallback-bg-color));
         color: var(--txtColor, var(--fallback-txt-color));
         min-height: 100vh;
+        overflow-x: hidden;
       }
 
       /* Typography */
@@ -196,6 +198,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         width: 100%;
         box-sizing: border-box;
         padding: 0;
+        overflow-x: hidden;
       }
 
       .content-grid section {
@@ -251,6 +254,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         overflow-y: hidden;
         position: relative;
         width: 100%;
+        max-width: 100%;
         overflow-x: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -434,6 +438,8 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .content-grid section:first-of-type {
           grid-template-columns: 1fr;
           align-items: baseline;
+          max-width: 100vw;
+          overflow-x: hidden;
         }
 
         .section-header {
@@ -442,6 +448,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         .two-column {
           grid-template-columns: 1fr;
+        }
+
+        .post-scroll-container {
+          max-width: 100vw;
+          overflow-x: hidden;
+        }
+
+        .post-scroll {
+          max-width: calc(100vw - 2rem);
         }
       }
 

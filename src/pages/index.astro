@@ -77,7 +77,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         </p>
 
         <div class="hover-info-square" id="hoverInfoSquare">
-          <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
+          <img id="hoverPortrait" src="/images/people/default.png" alt="Default portrait" />
           <div class="hover-info-content">
             <h4 id="hoverName">Joe Edelman</h4>
             <p id="hoverRole">Founder & Director</p>
@@ -223,7 +223,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       name: "Joe Edelman",
       role: "Founder & Director",
       bio: "Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.",
-      portrait: "/images/people/joe-edelman.png"
+      portrait: "/images/people/default.png"
     };
 
     // Create a map for quick lookup
@@ -245,12 +245,22 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           hoverBio.textContent = personData.bio;
 
           if (personData.portrait) {
+            // Attempt to use the provided portrait. If it fails to load, fall back to the default.
             hoverPortrait.src = personData.portrait;
             hoverPortrait.alt = `Portrait of ${personData.name}`;
-            hoverPortrait.style.display = "block";
+
+            // If the image 404s or cannot be loaded for any reason, fall back to the default placeholder.
+            hoverPortrait.onerror = () => {
+              hoverPortrait.onerror = null; // prevent infinite loop if default also errors
+              hoverPortrait.src = "/images/people/default.png";
+              hoverPortrait.alt = `Default portrait for ${personData.name}`;
+            };
           } else {
-            hoverPortrait.style.display = "none";
+            // No portrait specified – immediately show the default image.
+            hoverPortrait.src = "/images/people/default.png";
+            hoverPortrait.alt = `Default portrait for ${personData.name}`;
           }
+          hoverPortrait.style.display = "block";
 
           hoverCard.classList.remove("fade-out");
           hoverCard.classList.add("active");
