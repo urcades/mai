@@ -29,6 +29,14 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 ---
 
 <Base pageTitle={pageTitle}>
+  <div class="hover-info-square" id="hoverInfoSquare">
+    <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
+    <div class="hover-info-content">
+      <h4 id="hoverName">Joe Edelman</h4>
+      <p id="hoverRole">Founder & Director</p>
+      <p id="hoverBio">Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.</p>
+    </div>
+  </div>
   <!-- Title + Nav Section -->
   <header>
     <div class="header-content">
@@ -77,15 +85,6 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         <p>
           Want to help? Reach us at <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
-
-        <div class="hover-info-square" id="hoverInfoSquare">
-          <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
-          <div class="hover-info-content">
-            <h4 id="hoverName">Joe Edelman</h4>
-            <p id="hoverRole">Founder & Director</p>
-            <p id="hoverBio">Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.</p>
-          </div>
-        </div>
 
         <h3>Research Network</h3>
         <ul class="people-list research-network">
