@@ -27,16 +27,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       /* Geist Mono Font Face Declarations */
       @font-face {
         font-family: "Geist Mono";
-        src: url("/geist/webfonts/GeistMono[wght].woff2") format("woff2-variations");
+        src:
+          url("/geist/webfonts/GeistMono[wght].woff2") format("woff2-variations"),
+          url("/geist/webfonts/GeistMono-Regular.woff2") format("woff2");
         font-weight: 100 900;
-        font-display: swap;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: "Geist Mono";
-        src: url("/geist/webfonts/GeistMono-Regular.woff2") format("woff2");
-        font-weight: 400;
         font-display: swap;
         font-style: normal;
       }
@@ -86,6 +80,8 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         --font-weight-normal: 400;
         --font-weight-medium: 500;
         --font-weight-bold: 222;
+        --line-height-base: 1.6;
+        --line-height-tight: 1.4;
 
         /* Opacity */
         --opacity-faded: 0.55;
@@ -113,6 +109,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         /* Transitions */
         --transition-fast: 128ms;
         --transition-normal: 256ms;
+
+        /* Gradients */
+        --gradient-primary: linear-gradient(90deg, #d2590e, #306ed3, #1caf7e, #f15b29);
+        --gradient-size: 300% 100%;
       }
 
       /* Base Styling */
@@ -150,8 +150,8 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         font-weight: var(--font-weight-bold);
         padding: var(--space-large) 0;
         max-width: 30ch;
-        background: linear-gradient(90deg, #d2590e, #306ed3, #1caf7e, #f15b29);
-        background-size: 300% 100%;
+        background: var(--gradient-primary);
+        background-size: var(--gradient-size);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -180,13 +180,17 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         opacity: var(--opacity-faded);
       }
 
+      p {
+        line-height: var(--line-height-base);
+        padding: 0 0 1em 0;
+      }
+
       /* Layout Components */
       header {
         padding: var(--space-standard);
         max-width: 1440px;
         margin: 0 auto;
         width: 100%;
-        box-sizing: border-box;
       }
 
       .content-grid {
@@ -194,7 +198,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         max-width: 1440px;
         margin: 0 auto;
         width: 100%;
-        box-sizing: border-box;
         padding: 0;
       }
 
@@ -206,7 +209,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         margin-bottom: var(--space-xxlarge);
         align-items: baseline;
         overflow: visible;
-        box-sizing: border-box;
       }
 
       .section-header {
@@ -229,10 +231,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         font-weight: var(--font-weight-normal);
       }
 
-      .section-content p {
-        margin: 0 0 var(--space-standard) 0;
+      #contact .section-content h3:first-child {
+        margin: var(--space-standard) 0 0 0;
       }
 
+      .section-content p {
+        margin: var(--space-standard) 0 0 0;
+      }
+
+      /* Post Scroll */
       .post-scroll-container {
         grid-column: 1 / -1;
         position: relative;
@@ -241,8 +248,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         width: calc(100% + var(--space-standard) * 2);
         padding: 0;
         z-index: 1;
-        box-sizing: border-box;
-        -webkit-overflow-scrolling: touch;
       }
 
       .post-scroll {
@@ -258,6 +263,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
         -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
         padding: 3rem 0;
+        padding-right: 25dvh;
         margin: -3rem 0;
         padding-left: var(--space-standard);
         -webkit-overflow-scrolling: touch;
@@ -272,18 +278,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         transform: translateZ(0);
         will-change: transform;
         flex-shrink: 0;
-      }
-
-      /* Ensure content above the scroll has higher z-index */
-      .section-header,
-      .section-content {
-        position: relative;
-        z-index: 2;
-      }
-
-      .post-scroll a {
-        position: relative;
-        z-index: 1;
       }
 
       .post-scroll:after {
@@ -333,15 +327,74 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         margin-bottom: calc(var(--space-standard) / 3);
       }
 
+      /* Header Navigation */
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .logo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        background-size: var(--gradient-size);
+        animation: gradientFlow 8s ease infinite;
+        transform: translateY(-1px);
+      }
+
+      .header-content p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .header-content p a {
+        color: var(--txtColor, var(--fallback-txt-color));
+        text-decoration: none;
+      }
+
+      .main-nav {
+        display: flex;
+        align-items: center;
+      }
+
+      .main-nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+      }
+
+      .main-nav a {
+        color: var(--link-color);
+        text-decoration: none;
+        font-size: var(--font-size-base);
+        transition: color var(--transition-normal) ease;
+      }
+
+      .main-nav a:hover {
+        color: var(--link-hover-color);
+      }
+
       /* Hover Info Component */
       .hover-info-square {
-        background-color: var(--fallback-bg-color);
+        background-color: var(--bgColor, var(--fallback-bg-color));
         border: 1px solid var(--fallback-txt-color-faded);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: var(--space-large);
         opacity: 0;
         visibility: hidden;
         transition:
@@ -350,12 +403,16 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         z-index: 1000;
         overflow: auto;
         pointer-events: none;
+        position: fixed;
+        bottom: var(--space-large);
+        left: var(--space-large);
+        width: 400px;
       }
 
       #hoverPortrait {
         width: 100px;
         height: 100px;
-        border: 1px solid var(--fallback-txt-color-faded);
+        background-color: var(--bgColor, var(--fallback-bg-color-faded));
         object-fit: cover;
         border-radius: 50%;
         margin-bottom: var(--space-small);
@@ -379,12 +436,9 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
       #hoverBio {
         font-size: 0.9rem;
-        line-height: 1.4;
-        max-height: 120px;
-        overflow-y: auto;
+        line-height: var(--line-height-tight);
         margin: 0;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -422,12 +476,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .content-grid section {
           padding: var(--space-large) var(--space-large) 0;
         }
-        
+
         .post-scroll-container {
           margin: 0 calc(var(--space-large) * -1);
           width: calc(100% + var(--space-large) * 2);
         }
-        
+
         .post-scroll {
           padding-left: var(--space-large);
         }
@@ -444,10 +498,19 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
       }
 
       @media screen and (max-width: 768px) {
+        .main-nav {
+          display: none;
+        }
+
+        br {
+          display: block;
+        }
+
         .content-grid section:not(#research),
         .content-grid section:first-of-type:not(#research) {
           grid-template-columns: 1fr;
           align-items: baseline;
+          gap: 0;
         }
 
         .section-header {
@@ -458,7 +521,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
           grid-template-columns: 1fr;
         }
 
-        /* Make research section LOOK like single column while keeping 2-column grid */
+        #research {
+          gap: 0;
+        }
+
         #research .section-header {
           grid-column: 1 / -1;
         }
@@ -467,7 +533,6 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
           grid-column: 1 / -1;
         }
 
-        /* Ensure research section post-scroll spans full width */
         #research .post-scroll-container {
           grid-column: 1 / -1;
           margin: 0 calc(var(--space-standard) * -1);
@@ -477,9 +542,17 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         #research .post-scroll {
           padding-left: var(--space-standard);
         }
+
+        .hover-info-square {
+          top: var(--space-large);
+          bottom: auto;
+          left: var(--space-large);
+          right: var(--space-large);
+          width: auto;
+          transform: none;
+        }
       }
 
-      /* Extra large screens */
       @media screen and (min-width: 1440px) {
         header,
         .content-grid section {
@@ -502,7 +575,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         a {
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
           text-decoration: underline;
-          text-decoration-color: var(--txtColorDark, var(--fallback-txt-decoration-faded));
+          text-decoration-color: var(--fallback-txt-color-dark-faded);
+        }
+
+        .header-content p a {
+          color: var(--txtColorDark, var(--fallback-txt-color-dark));
+          text-decoration: none;
         }
 
         .content-grid section {
@@ -510,8 +588,16 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         }
 
         .hover-info-square {
-          background-color: var(--fallback-bg-color-dark);
+          background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
           border: 1px solid var(--fallback-txt-color-dark-faded);
+        }
+
+        .main-nav a {
+          color: var(--link-color-dark);
+        }
+
+        .main-nav a:hover {
+          color: var(--link-hover-color-dark);
         }
       }
     </style>
