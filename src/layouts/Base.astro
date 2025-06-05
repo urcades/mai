@@ -239,6 +239,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         padding: 0 0 1em 0;
       }
 
+      br {
+        display: none;
+      }
+
       .section-content p {
         margin: var(--space-standard) 0 0 0;
       }
@@ -350,6 +354,24 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         justify-content: space-between;
         align-items: center;
         width: 100%;
+      }
+
+      /* Logo styling */
+      .logo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, #d2590e, #306ed3, #1caf7e, #f15b29);
+        background-size: 300% 100%;
+        animation: gradientFlow 8s ease infinite;
+        transform: translateY(-1px);
       }
 
       /* Header home link (Meaning Alignment Institute) */
@@ -504,10 +526,15 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
           display: none;
         }
 
+        br {
+          display: block;
+        }
+
         .content-grid section:not(#research),
         .content-grid section:first-of-type:not(#research) {
           grid-template-columns: 1fr;
           align-items: baseline;
+          gap: 0rem;
         }
 
         .section-header {
@@ -519,6 +546,10 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         }
 
         /* Make research section LOOK like single column while keeping 2-column grid */
+        #research {
+          gap: 0rem;
+        }
+
         #research .section-header {
           grid-column: 1 / -1;
         }
@@ -572,7 +603,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         a {
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
           text-decoration: underline;
-          text-decoration-color: var(--txtColorDark, var(--fallback-txt-decoration-faded));
+          text-decoration-color: var(--fallback-txt-color-dark-faded);
         }
 
         /* Dark mode for header home link */
@@ -588,6 +619,12 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .hover-info-square {
           background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
           border: 1px solid var(--fallback-txt-color-dark-faded);
+        }
+
+        .logo-dot {
+          background: linear-gradient(90deg, #d2590e, #306ed3, #1caf7e, #f15b29);
+          background-size: 300% 100%;
+          animation: gradientFlow 8s ease infinite;
         }
       }
     </style>

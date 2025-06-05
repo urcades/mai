@@ -28,7 +28,19 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     filter: drop-shadow(0 0 20px var(--card-glow-color, rgba(0, 0, 0, 0.15)));
     margin: 8px;
     overflow: visible;
-    transition: filter 0.3s ease, transform 0.3s ease;
+    transition:
+      filter 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sketch {
+      filter: drop-shadow(0 0 20px var(--card-glow-color, rgba(0, 0, 0, 0.04)));
+    }
+
+    .sketch:hover {
+      filter: drop-shadow(0 0 25px var(--card-glow-color, rgba(0, 0, 0, 0.03)));
+    }
   }
 
   .sketch:hover {
@@ -89,7 +101,9 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
 
   .sketch em {
     font-family: "Times New Roman", Times, serif;
-    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.44);
+    text-shadow:
+      1px 4px 8px rgba(0, 0, 0, 0.25),
+      0px 1px 2px rgba(0, 0, 0, 0.44);
   }
 
   em,
@@ -109,14 +123,15 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
   }
 
   @media (prefers-color-scheme: dark) {
-    a, em {
+    a,
+    em {
       color: var(--txtColorDark, var(--fallback-txt-color-dark));
     }
   }
 </style>
 
 <script>
-    function sampleImageColor(element: HTMLElement): void {
+  function sampleImageColor(element: HTMLElement): void {
     const img = new Image();
     img.src = element.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, "$1");
 
@@ -135,18 +150,27 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
       const centerY = Math.floor(canvas.height / 2);
       const pixel = ctx.getImageData(centerX, centerY, 1, 1).data;
 
+      // Check if dark mode is enabled
+      const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const opacity = isDarkMode ? 0.22 : 0.88;
+
       // Apply the sampled color to the card glow color
-      element.style.setProperty("--card-glow-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, 0.66)`);
+      element.style.setProperty("--card-glow-color", `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${opacity})`);
     };
   }
 
   // Run on all sketch elements
   document.querySelectorAll(".sketch").forEach((el) => sampleImageColor(el as HTMLElement));
+
+  // Update colors when color scheme changes
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    document.querySelectorAll(".sketch").forEach((el) => sampleImageColor(el as HTMLElement));
+  });
 </script>
 
 {
   url && (
-    <a href={url}>
+    <a href={url} target="_blank">
       <div class={`sketch ${featured ? "featured" : ""}`} data-size={size} style={`background-image: url(${imageUrl});`}>
         <div class="sketch-info">
           <div class="sketch-info-top">
@@ -158,5 +182,3 @@ const { imageUrl, title, category, description, url, size = "1", featured = fals
     </a>
   )
 }
-
-
