@@ -179,7 +179,42 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     }
 
     personItems.forEach((item) => {
-      item.addEventListener("mouseenter", () => {
+      item.addEventListener("mousemove", (e) => {
+        // Get mouse position
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Calculate if cursor is in top 40% of viewport
+        const isInTopArea = mouseY < window.innerHeight * 0.4;
+        
+        // Get card width for centering (default to 300 if not yet rendered)
+        const cardWidth = hoverCard.offsetWidth || 300;
+        
+        // Position the card based on cursor location
+        hoverCard.style.position = "fixed";
+        hoverCard.style.left = `${mouseX - (cardWidth/2)}px`;
+        
+        if (isInTopArea) {
+          // Position below cursor if in top 40%
+          hoverCard.style.top = `${mouseY + 20}px`;
+          hoverCard.style.bottom = "auto";
+        } else {
+          // Position above cursor
+          hoverCard.style.bottom = `${window.innerHeight - mouseY + 20}px`;
+          hoverCard.style.top = "auto";
+        }
+        
+        // Ensure card stays within viewport bounds
+        const rightEdge = mouseX + (cardWidth/2);
+        if (rightEdge > window.innerWidth) {
+          hoverCard.style.left = `${window.innerWidth - cardWidth - 20}px`;
+        }
+        if (mouseX - (cardWidth/2) < 20) {
+          hoverCard.style.left = "20px";
+        }
+      });
+      
+      item.addEventListener("mouseenter", (e) => {
         clearTimeout(hideTimeout);
         const personId = item.getAttribute("data-person-id");
         if (personId && peopleMap[personId]) {
