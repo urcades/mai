@@ -193,14 +193,9 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     const hoverBio = document.getElementById("hoverBio");
     const hoverPortrait = document.getElementById("hoverPortrait");
     let hideTimeout;
-
-    // Store default state
-    const defaultState = {
-      name: "Joe Edelman",
-      role: "Founder & Director",
-      bio: "Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.",
-      portrait: "/images/people/joe-edelman.png"
-    };
+    
+    // Detect if device is mobile
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     // Create a map for quick lookup
     const peopleMap = {};
@@ -211,40 +206,43 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
     }
 
     personItems.forEach((item) => {
-      item.addEventListener("mousemove", (e) => {
-        // Get mouse position
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        
-        // Calculate if cursor is in top 40% of viewport
-        const isInTopArea = mouseY < window.innerHeight * 0.4;
-        
-        // Get card width for centering (default to 300 if not yet rendered)
-        const cardWidth = hoverCard.offsetWidth || 300;
-        
-        // Position the card based on cursor location
-        hoverCard.style.position = "fixed";
-        hoverCard.style.left = `${mouseX - (cardWidth/2)}px`;
-        
-        if (isInTopArea) {
-          // Position below cursor if in top 40%
-          hoverCard.style.top = `${mouseY + 20}px`;
-          hoverCard.style.bottom = "auto";
-        } else {
-          // Position above cursor
-          hoverCard.style.bottom = `${window.innerHeight - mouseY + 20}px`;
-          hoverCard.style.top = "auto";
-        }
-        
-        // Ensure card stays within viewport bounds
-        const rightEdge = mouseX + (cardWidth/2);
-        if (rightEdge > window.innerWidth) {
-          hoverCard.style.left = `${window.innerWidth - cardWidth - 20}px`;
-        }
-        if (mouseX - (cardWidth/2) < 20) {
-          hoverCard.style.left = "20px";
-        }
-      });
+      // Only add mousemove handler for desktop devices
+      if (!isMobile) {
+        item.addEventListener("mousemove", (e) => {
+          // Get mouse position
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          
+          // Calculate if cursor is in top 40% of viewport
+          const isInTopArea = mouseY < window.innerHeight * 0.4;
+          
+          // Get card width for centering (default to 300 if not yet rendered)
+          const cardWidth = hoverCard.offsetWidth || 300;
+          
+          // Position the card based on cursor location
+          hoverCard.style.position = "fixed";
+          hoverCard.style.left = `${mouseX - (cardWidth/2)}px`;
+          
+          if (isInTopArea) {
+            // Position below cursor if in top 40%
+            hoverCard.style.top = `${mouseY + 20}px`;
+            hoverCard.style.bottom = "auto";
+          } else {
+            // Position above cursor
+            hoverCard.style.bottom = `${window.innerHeight - mouseY + 20}px`;
+            hoverCard.style.top = "auto";
+          }
+          
+          // Ensure card stays within viewport bounds
+          const rightEdge = mouseX + (cardWidth/2);
+          if (rightEdge > window.innerWidth) {
+            hoverCard.style.left = `${window.innerWidth - cardWidth - 20}px`;
+          }
+          if (mouseX - (cardWidth/2) < 20) {
+            hoverCard.style.left = "20px";
+          }
+        });
+      }
       
       item.addEventListener("mouseenter", (e) => {
         clearTimeout(hideTimeout);
@@ -265,6 +263,15 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 
           hoverCard.classList.remove("fade-out");
           hoverCard.classList.add("active");
+          
+          // For mobile, position the card in a fixed position instead of following cursor
+          if (isMobile) {
+            hoverCard.style.position = "fixed";
+            hoverCard.style.left = "50%";
+            hoverCard.style.top = "50%";
+            hoverCard.style.transform = "translate(-50%, -50%)";
+            hoverCard.style.bottom = "auto";
+          }
         }
       });
 
