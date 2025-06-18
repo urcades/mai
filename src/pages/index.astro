@@ -240,16 +240,6 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         hideTimeout = setTimeout(() => {
           hoverCard.classList.add("fade-out");
           hoverCard.classList.remove("active");
-          
-          // Reset to default state after fade out
-          setTimeout(() => {
-            hoverName.textContent = defaultState.name;
-            hoverRole.textContent = defaultState.role;
-            hoverBio.textContent = defaultState.bio;
-            hoverPortrait.src = defaultState.portrait;
-            hoverPortrait.alt = `Portrait of ${defaultState.name}`;
-            hoverPortrait.style.display = "block";
-          }, 200);
         }, 100);
       });
     });
