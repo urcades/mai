@@ -267,7 +267,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         margin: -3rem 0;
         padding-left: var(--space-standard);
         -webkit-overflow-scrolling: touch;
-        touch-action: pan-x;
+        touch-action: pan-x pan-y;
       }
 
       .post-scroll::-webkit-scrollbar {
@@ -482,6 +482,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         .post-scroll {
           padding-left: var(--space-large);
         }
+        
+        .mobile-break::after {
+          content: "";
+          white-space: normal;
+        }
       }
 
       @media screen and (min-width: 768px) {
@@ -501,6 +506,11 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
 
         br {
           display: block;
+        }
+
+        .mobile-break::after {
+          content: "\A";
+          white-space: pre;
         }
 
         .content-grid section:not(#research),
@@ -568,7 +578,7 @@ const { pageTitle, txtColor, bgColor, txtColorDark, bgColorDark } = Astro.props;
         a {
           color: var(--txtColorDark, var(--fallback-txt-color-dark));
           text-decoration: underline;
-          text-decoration-color: var(--fallback-txt-color-dark-faded);
+          text-decoration-color: var(--fallback-txt-color-dark);
         }
 
         .header-content p a {

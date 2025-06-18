@@ -61,7 +61,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       <h2 class="section-header">Research</h2>
       <div class="section-content">
         <p>
-          Stay up to date, subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
+          <span class="mobile-break">Stay up to date,</span> subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
         </p>
       </div>
       <div class="post-scroll-container">
@@ -151,6 +151,38 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
           e.preventDefault();
         }
       }, { passive: false });
+      
+      // Improve touch scrolling on mobile
+      if ('ontouchstart' in window) {
+        const cardLinks = scrollArea.querySelectorAll('.card-link');
+        
+        // Add small delay for touch events to differentiate between scroll and tap
+        cardLinks.forEach(link => {
+          let touchStartTime = 0;
+          let touchStartX = 0;
+          let touchStartY = 0;
+          
+          link.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }, { passive: true });
+          
+          link.addEventListener('touchend', (e) => {
+            const touchTime = Date.now() - touchStartTime;
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const distanceX = Math.abs(touchEndX - touchStartX);
+            const distanceY = Math.abs(touchEndY - touchStartY);
+            
+            // If it was a quick tap without much movement, treat as a click
+            // Otherwise, it was likely a scroll attempt
+            if (touchTime > 300 || distanceX > 10 || distanceY > 10) {
+              e.preventDefault();
+            }
+          }, { passive: false });
+        });
+      }
     });
 
     // Enhanced hover interaction for people lists
