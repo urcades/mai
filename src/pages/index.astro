@@ -29,10 +29,21 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
 ---
 
 <Base pageTitle={pageTitle}>
+  <div class="hover-info-square" id="hoverInfoSquare">
+    <img id="hoverPortrait" src="/images/people/default.png" alt="MAI" />
+    <div class="hover-info-content">
+      <h4 id="hoverName">Joe Edelman</h4>
+      <p id="hoverRole">Founder & Director</p>
+      <p id="hoverBio">Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.</p>
+    </div>
+  </div>
   <!-- Title + Nav Section -->
   <header>
     <div class="header-content">
-      <p><a href="/">Meaning Alignment Institute</a></p>
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <p><a href="/">Meaning Alignment Institute</a></p>
+      </div>
       <nav class="main-nav">
         <ul>
           <li><a href="#research">Research</a></li>
@@ -50,7 +61,7 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
       <h2 class="section-header">Research</h2>
       <div class="section-content">
         <p>
-          Stay up to date, subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
+          Stay up to date, <br /> subscribe on <a href="https://meaningalignment.substack.com">Substack</a>.
         </p>
       </div>
       <div class="post-scroll-container">
@@ -74,15 +85,6 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
         <p>
           Want to help? Reach us at <a href="mailto:hello@meaningalignment.org">hello@meaningalignment.org</a>
         </p>
-
-        <div class="hover-info-square" id="hoverInfoSquare">
-          <img id="hoverPortrait" src="/images/people/joe-edelman.png" alt="Portrait of Joe Edelman" />
-          <div class="hover-info-content">
-            <h4 id="hoverName">Joe Edelman</h4>
-            <p id="hoverRole">Founder & Director</p>
-            <p id="hoverBio">Joe focuses on meaning alignment for AI systems and social technologies, working to ensure these systems support what truly matters to people.</p>
-          </div>
-        </div>
 
         <h3>Research Network</h3>
         <ul class="people-list research-network">
@@ -238,136 +240,4 @@ const remainingPosts = sortedPosts.filter((post) => !post.data.featured);
   });
 </script>
 
-<style>
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  /* Header home link (Meaning Alignment Institute) */
-  .header-content p a {
-    color: var(--txtColor, var(--fallback-txt-color));
-    text-decoration: none;
-  }
-  
-  .main-nav {
-    display: flex;
-    align-items: center;
-  }
-  
-  .main-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Navigation links in header should be gray in both modes */
-  .main-nav a {
-    color: #777;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.2s ease;
-  }
-  
-  .main-nav a:hover {
-    color: #999;
-  }
-  
-  
-  /* Dark mode for header home link */
-  @media (prefers-color-scheme: dark) {
-    .header-content p a {
-      color: var(--txtColorDark, var(--fallback-txt-color-dark));
-      text-decoration: none;
-    }
-  }
-  
-  /* Hide navigation on small screens */
-  @media (max-width: 768px) {
-    .main-nav {
-      display: none;
-    }
-  }
 
-  /* Hover Info Component */
-  .hover-info-square {
-    background-color: var(--bgColor, var(--fallback-bg-color));
-    border: 1px solid var(--fallback-txt-color-faded);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-large);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-normal) ease-in,
-                visibility 0s var(--transition-normal);
-    z-index: 1000;
-    overflow: auto;
-    pointer-events: none;
-    position: fixed;
-    bottom: var(--space-large);
-    left: var(--space-large);
-    width: 300px;
-  }
-
-  #hoverPortrait {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: var(--space-small);
-  }
-
-  .hover-info-content {
-    text-align: left;
-    width: 100%;
-  }
-
-  #hoverName {
-    font-size: 1.5rem;
-    margin: 0 0 var(--space-small) 0;
-  }
-
-  #hoverRole {
-    font-size: var(--font-size-base);
-    opacity: var(--opacity-hover);
-    margin: 0 0 var(--space-standard) 0;
-  }
-
-  #hoverBio {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin: 0;
-    display: -webkit-box;
-    
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .hover-info-square.active {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity var(--transition-normal) ease-in,
-                visibility 0s;
-  }
-
-  .hover-info-square.fade-out {
-    opacity: 0;
-    transition: opacity var(--transition-fast) ease-out,
-                visibility 0s var(--transition-fast);
-  }
-
-  /* Dark Mode */
-  @media (prefers-color-scheme: dark) {
-    .hover-info-square {
-      background-color: var(--bgColorDark, var(--fallback-bg-color-dark));
-      border: 1px solid var(--fallback-txt-color-dark-faded);
-    }
-  }
-</style>
